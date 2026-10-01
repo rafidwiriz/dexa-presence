@@ -1,0 +1,23 @@
+# Node
+node_modules/
+dist/
+build/
+*.log
+
+# Env / secrets (never commit)
+.env
+.env.*
+!.env.example
+apps/**/.env
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Coverage
+coverage/
+
+# Docker
+docker/data/
