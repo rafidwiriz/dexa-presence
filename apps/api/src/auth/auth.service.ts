@@ -33,4 +33,20 @@ export class AuthService {
       employee,
     };
   }
+
+  async changePassword(
+    employeeId: string,
+    currentPassword: string,
+    newPassword: string,
+  ): Promise<{ ok: boolean }> {
+    const employee = await this.repo.findOneBy({ id: employeeId });
+    if (!employee) throw new UnauthorizedException('Employee not found');
+
+    const valid = await bcrypt.compare(currentPassword, employee.password_hash);
+    if (!valid) throw new UnauthorizedException('Current password is incorrect');
+
+    employee.password_hash = await bcrypt.hash(newPassword, 10);
+    await this.repo.save(employee);
+    return { ok: true };
+  }
 }

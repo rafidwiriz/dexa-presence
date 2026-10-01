@@ -69,6 +69,19 @@ ADR-style. Format: date · decision · context · consequence.
   dead route + full-replace DTO (YAGNI).
 - Contract `docs/api-contracts.md` updated to drop the `PUT /employees/:id` row.
 
+## D-010 · Profile edit authorization (self vs admin)
+- **2026-10-01**
+- Per PDF: an employee may update **only** their own photo, phone number, and password.
+  All other employee fields (name, position, role, company_email) are **admin-only**.
+- Rules:
+  - `PATCH /employees/:id` — admin: any field, any employee. Employee (self): only
+    `phone` and `photo_url`; other fields → 403.
+  - `PATCH /employees/:id/password` — self (or admin reset).
+  - `POST` / `DELETE /employees/:id` — admin only.
+  - `GET /employees` (list) — admin only. `GET /employees/:id` — self or admin.
+- Implemented via `JwtAuthGuard` (all routes) + `RolesGuard`/`@Roles(ADMIN)` (admin
+  routes) + field-level allowlist for self-update.
+
 ## Open decisions (to be made during implementation)
 - CSS framework for the frontends (Tailwind recommended, to record here).
 - Photo storage: local upload dir vs object storage (local for the test).
