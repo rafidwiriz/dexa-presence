@@ -22,10 +22,11 @@ export class EmployeesService {
   }
 
   async create(data: Partial<Employee>): Promise<Employee> {
+    const employee = this.repo.create(data);
     if (data.password_hash) {
-      data.password_hash = await bcrypt.hash(data.password_hash, 10);
+      employee.password_hash = await bcrypt.hash(data.password_hash, 10);
     }
-    return this.repo.save(this.repo.create(data));
+    return this.repo.save(employee);
   }
 
   async update(id: string, data: Partial<Employee>): Promise<Employee> {

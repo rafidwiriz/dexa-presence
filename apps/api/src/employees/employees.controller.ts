@@ -24,7 +24,8 @@ export class EmployeesController {
   }
 
   @Post() create(@Body() dto: CreateEmployeeDto): Promise<Employee> {
-    return this.employeesService.create(dto as Partial<Employee>);
+    const { password, ...rest } = dto;
+    return this.employeesService.create({ ...rest, password_hash: password });
   }
 
   @Patch(':id') update(
