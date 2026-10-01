@@ -18,7 +18,7 @@ Base URL: `http://localhost:3000/api` (dev). JSON bodies, `Authorization: Bearer
 | PATCH | `/api/employees/:id/password` | `{ current, new }` | `{ ok }` | publish audit event too |
 | GET | `/api/employees` | — | `employee[]` | admin only (list) |
 | POST | `/api/employees` | `{ name, company_email, password, position, phone, role }` | `employee` | admin only (create) |
-| PUT | `/api/employees/:id` | full employee payload | `employee` | admin only (update) |
+| PATCH | `/api/employees/:id` | partial `{ name, phone, photo_url, position }` | `employee` | publishes `profile.updated` |
 | POST | `/api/employees/:id/photo` | multipart file | `{ photo_url }` | upload photo |
 
 ## Attendance

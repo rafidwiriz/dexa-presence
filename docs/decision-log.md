@@ -62,6 +62,13 @@ ADR-style. Format: date · decision · context · consequence.
 - Consequence: keep Nest 10 for the test; re-evaluate on any real deployment. If a
   clean audit is required later, migrate to Nest 12 **before** writing app code.
 
+## D-009 · Employee update: PATCH only (no PUT)
+- **2026-10-01**
+- Employee edits are inherently partial (name, position, phone, role) — PATCH covers
+  them; PUT (full replace) has no use case in this app. Kept PATCH only to avoid a
+  dead route + full-replace DTO (YAGNI).
+- Contract `docs/api-contracts.md` updated to drop the `PUT /employees/:id` row.
+
 ## Open decisions (to be made during implementation)
 - CSS framework for the frontends (Tailwind recommended, to record here).
 - Photo storage: local upload dir vs object storage (local for the test).
