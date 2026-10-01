@@ -24,6 +24,7 @@ WFH attendance + HRD monitoring web apps backed by NestJS microservices.
 | [`docs/data-model.md`](docs/data-model.md) | Database structure (main DB + audit log DB) |
 | [`docs/api-contracts.md`](docs/api-contracts.md) | REST endpoints for both apps |
 | [`docs/conventions.md`](docs/conventions.md) | Stack versions, ports, env/secrets, API style |
+| [`docs/nestjs-flask-guide.md`](docs/nestjs-flask-guide.md) | NestJS concepts mapped to Flask (for contributors) |
 | [`docs/decision-log.md`](docs/decision-log.md) | ADR-style log of decisions and why |
 | [`docs/repo-inventory.md`](docs/repo-inventory.md) | Registry of what exists — the source of truth |
 

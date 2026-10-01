@@ -50,6 +50,18 @@ ADR-style. Format: date · decision · context · consequence.
 - Attendance app is employee-facing; monitoring app is admin/HRD. JWT carries role;
   guards scope access.
 
+## D-008 · Accept npm audit findings on Nest 10 scaffold
+- **2026-10-01**
+- `npm audit` on the Nest 10 scaffold reports 24 vulns (4 low, 13 moderate, 7 high).
+  `npm audit fix` clears nothing; `--force` requires major upgrade to Nest 12
+  (breaking: `@nestjs/config@3`/`@nestjs/typeorm@10` compatibility, CLI pins).
+- Classification: the 7 high + most moderate are **dev dependencies**
+  (`@nestjs/cli`, webpack, tmp, ajv, inquirer) — build-time only, not shipped.
+  Runtime advisories (`@nestjs/core` injection via platform-express, body-parser DoS,
+  qs DoS, uuid) are **moderate/low** and only patchable via Nest 12.
+- Consequence: keep Nest 10 for the test; re-evaluate on any real deployment. If a
+  clean audit is required later, migrate to Nest 12 **before** writing app code.
+
 ## Open decisions (to be made during implementation)
 - CSS framework for the frontends (Tailwind recommended, to record here).
 - Photo storage: local upload dir vs object storage (local for the test).
