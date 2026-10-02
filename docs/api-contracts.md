@@ -14,7 +14,7 @@ Base URL: `http://localhost:3000/api` (dev). JSON bodies, `Authorization: Bearer
 | Method | Path | Body | Returns | Notes |
 |---|---|---|---|---|
 | GET | `/api/employees/:id` | — | `employee` | own profile (self) or admin-visible |
-| PATCH | `/api/employees/:id` | partial `{ name, phone, photo_url, position }` | `employee` | self: phone+photo only; admin: all. *(planned)* publishes `profile.updated` |
+| PATCH | `/api/employees/:id` | partial `{ name, phone, photo_url, position }` | `employee` | self: phone+photo only; admin: all. Publishes `profile.updated` (RMQ) |
 | GET | `/api/employees` | — | `employee[]` | admin only (list) |
 | POST | `/api/employees` | `{ name, company_email, password, position, phone, role }` | `employee` | admin only (create) |
 | DELETE | `/api/employees/:id` | — | `204` | admin only |
@@ -46,6 +46,10 @@ Base URL: `http://localhost:3000/api` (dev). JSON bodies, `Authorization: Bearer
 401. Forbidden (role): 403. Not found: 404.
 
 ## Event — `profile.updated` (RabbitMQ)
+
+Published by `EmployeesService` on employee update (only changed fields among
+name/position/phone/photo_url). Consumed by `ProfileAuditConsumer` → writes a row to
+`dexa_audit.profile_changes`. Queue `profile_updated` (durable), at-least-once.
 
 Payload:
 ```json

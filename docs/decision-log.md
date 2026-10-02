@@ -99,6 +99,30 @@ ADR-style. Format: date · decision · context · consequence.
 - API contract in `docs/api-contracts.md` updated to English values.
 - Future: optional i18n layer (English mode) on the frontend — deferred, not designed yet.
 
+## D-013 · Profile audit: RabbitMQ producer/consumer in one hybrid Nest app
+- **2026-10-02**
+- Spec: log profile changes to a **separate** database via queue. Implemented with
+  RabbitMQ: `EmployeesService` emits `profile.updated` (RMQ `ClientProxy` +
+  `lastValueFrom`), a `ProfileAuditConsumer` (`@EventPattern`) writes to the
+  `dexa_audit` DB via a second TypeORM connection named `audit`.
+- Both producer and consumer run in the **same Nest process** (hybrid app:
+  `app.connectMicroservice` + `startAllMicroservices`). Keeps the microservice
+  boundary (queue decoupling) without a second process within the test budget.
+- Queue is **durable** (`profile_updated`, `durable: true`) → messages survive broker
+  restarts. Consumer uses at-least-once semantics: on write failure it does **not**
+  ack, so RabbitMQ redelivers.
+- **Publish failure is swallowed** (logged) — a queue outage never fails the HTTP
+  PATCH request. Trade-off: audit event can be lost if the broker is down at publish
+  time; acceptable for the test.
+- Producer diff-only: `update()` compares before/after and emits only changed fields
+  (`name`, `position`, `phone`, `photo_url`); no-op PATCH emits nothing.
+
+## D-014 · Audit DB provisioning
+- **2026-10-02**
+- `dexa_audit` is a separate database. Postgres compose creates only `dexa_presence`,
+  so `dexa_audit` must be created out-of-band (manual `CREATE DATABASE` or a compose
+  init script) before first run.
+
 ## Open decisions (to be made during implementation)
 - CSS framework for the frontends (Tailwind recommended, to record here).
 - Photo storage: local upload dir vs object storage (local for the test).
