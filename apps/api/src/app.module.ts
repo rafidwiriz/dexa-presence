@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmployeesModule } from './employees/employees.module';
 import { AuthModule } from './auth/auth.module';
 import { AttendanceModule } from './attendance/attendance.module';
+import { ProfileAuditModule } from './profile-audit/profile-audit.module';
 
 @Module({
   imports: [
@@ -23,9 +24,24 @@ import { AttendanceModule } from './attendance/attendance.module';
         synchronize: true,
       }),
     }),
+    TypeOrmModule.forRootAsync({
+      name: 'audit',
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('AUDIT_DATABASE_HOST'),
+        port: configService.get('AUDIT_DATABASE_PORT'),
+        username: configService.get('AUDIT_DATABASE_USER'),
+        password: configService.get('AUDIT_DATABASE_PASSWORD'),
+        database: configService.get('AUDIT_DATABASE_NAME'),
+        autoLoadEntities: true,
+        synchronize: true,
+      }),
+    }),
     EmployeesModule,
     AuthModule,
     AttendanceModule,
+    ProfileAuditModule,
   ],
   controllers: [AppController],
   providers: [AppService],
