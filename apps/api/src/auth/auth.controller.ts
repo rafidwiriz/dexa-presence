@@ -1,15 +1,9 @@
-import { Body, Controller, ForbiddenException, Patch, Post, UseGuards } from '@nestjs/common';
-import { IsString, MinLength } from 'class-validator';
+import { Body, Controller, Patch, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto } from './auth.dto';
+import { ChangePasswordDto, LoginDto } from './auth.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { CurrentUser } from './current-user.decorator';
 import { AuthUser } from './jwt-auth.guard';
-
-export class ChangePasswordDto {
-  @IsString() current_password: string;
-  @IsString() @MinLength(8) new_password: string;
-}
 
 @Controller('auth')
 export class AuthController {

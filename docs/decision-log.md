@@ -92,7 +92,7 @@ ADR-style. Format: date · decision · context · consequence.
   so days align with the user's local day boundary, not UTC.
 
 ## D-012 · Language: English in backend code/API, Indonesian on frontend
-- **2026-10-01**
+- **2026-10-02**
 - Backend (entities, variables, DTOs, API values) uses English: `CheckType.IN = 'in'`,
   `CheckType.OUT = 'out'`; summary returns `check_in`/`check_out`. Indonesian
   ("Masuk"/"Pulang") is a **frontend translation concern**.

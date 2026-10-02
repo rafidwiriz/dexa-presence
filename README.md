@@ -8,8 +8,8 @@ WFH attendance + HRD monitoring web apps backed by NestJS microservices.
 |---|---|
 | 0 — Requirements & docs | ✅ Structure + docs scaffolded |
 | 1 — Architecture & conventions | Documented (see `docs/`) |
-| 2 — Database schema | Not started |
-| 3 — API microservices | Not started |
+| 2 — Database schema | 🟡 Entities only (`synchronize` dev-mode) |
+| 3 — API microservices | 🟡 Auth + employees + attendance built; admin attendance, photo upload, queue, notification pending |
 | 4 — Frontend apps (absensi + monitoring) | Not started |
 | 5 — Integration & notification/queue | Not started |
 
@@ -42,4 +42,4 @@ WFH attendance + HRD monitoring web apps backed by NestJS microservices.
 - Frontend: **React** (Vite)
 - Database: **PostgreSQL** (choose-one per spec)
 - Queue for profile-change audit log → separate DB: **RabbitMQ**
-- Admin notification on profile edit: **SSE**
+- Admin notification on profile edit: **SSE or Firebase** (D-004 pending)

@@ -10,7 +10,8 @@
                  │  │ (employee)│ │ (HRD)     │ │
                  │  └─────┬─────┘ └─────┬─────┘ │
                  └────────┼────────────┼────────┘
-                          │  REST + SSE │
+                          │  REST + SSE/Firebase │
+                          │   (notification D-004 pending) │
                  ┌────────▼────────────▼────────┐
                  │      apps/api  (NestJS)       │
                  │  ┌──────────────────────────┐ │
@@ -36,8 +37,8 @@
 - **Employee service** — profile read/update, admin CRUD, photo upload, phone/password
   update. Publishes a `profile.updated` event to RabbitMQ on change.
 - **Attendance service** — check-in/check-out; summary with date-range filter.
-- **Notifications service** — SSE endpoint; pushes a popup/alert to the monitoring app
-  whenever a profile-change event is consumed.
+- **Notifications service** — pushes a popup/alert to the monitoring app whenever a
+  profile-change event is consumed. Transport: SSE or Firebase — **pending D-004**.
 - **ProfileAudit service** — consumes `profile.updated` events from RabbitMQ and
   inserts rows into the **separate audit database**.
 
@@ -59,5 +60,5 @@ data by role: `employee` vs `admin`.
 - Microservices as **NestJS modules/HTTP services** within one process (per
   `docs/decision-log.md`), sharing one REST gateway — satisfies the "microservices
   concept (REST API)" requirement without premature process split.
-- Notification via **SSE** (no external account, browser-native).
+- Notification via **SSE or Firebase** — choice pending (D-004).
 - Queue via **RabbitMQ** (local, dockerized).

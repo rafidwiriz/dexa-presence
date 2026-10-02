@@ -19,15 +19,17 @@ dexa-presence/
 
 | Area | Status | Notes |
 |---|---|---|
-| Docs scaffold | ✅ | plan, requirements, architecture, data-model, api-contracts, conventions, decision-log |
-| apps/api | ⬜ not started | |
+| Docs scaffold | ✅ | plan, requirements, architecture, data-model, api-contracts, conventions, decision-log, nestjs-flask-guide |
+| apps/api | ✅ scaffolded | NestJS 10 + TypeORM 0.3, builds clean |
 | apps/web | ⬜ not started | |
-| docker compose | ⬜ not started | postgres 16, rabbitmq 3.13 |
-| DB schema | ⬜ not started | `dexa_presence` + `dexa_audit` |
-| Auth | ⬜ not started | JWT, company_email + password |
-| Attendance | ⬜ not started | check masuk/pulang, summary + date filter |
-| Notifications | ⬜ not started | SSE stream |
-| Profile audit | ⬜ not started | RabbitMQ → audit DB |
+| docker compose | ✅ file written | `docker/compose.yml` (postgres 16, rabbitmq 3.13); containers not started yet |
+| DB schema | 🟡 entities only | `synchronize: true` (dev); no migrations yet; audit DB not created |
+| Auth | ✅ | JWT login (`POST /auth/login`), password change (`PATCH /auth/password`), bcrypt |
+| Employees CRUD | ✅ | list/get/create/update/delete; self vs admin guards (D-010) |
+| Attendance | 🟡 employee side | check in/out + tz-aware summary done; admin read-only view *(next)* |
+| Photo upload | ⬜ not started | `POST /employees/:id/photo` *(planned)* |
+| Notifications | ⬜ not started | SSE/Firebase — D-004 pending |
+| Profile audit | ⬜ not started | RabbitMQ → audit DB (D-006) |
 | Frontends | ⬜ not started | absensi (profil, absen, summary) + monitoring (CRUD, read-only absensi) |
 
 ## Services / ports / versions
@@ -46,3 +48,6 @@ See `docs/conventions.md` (single source for ports + pinned versions).
 - Default summary window: start of current month → today; filterable by date range.
 - Profile-change features: admin notification + queue to separate DB.
 - Monitoring app attendance view is read-only.
+- NestJS scaffold uses Nest 10 (needs `@nestjs/config@3`, `@nestjs/typeorm@10`,
+  `typeorm@0.3` — see D-008/D-009).
+- `npm audit` on the scaffold reports 24 vulns; accepted for the test (D-008).

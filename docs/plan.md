@@ -25,14 +25,15 @@ admins) sharing a NestJS microservices REST API. Completed in **3–4 days (max 
 - [ ] Two frontends + one API, all consuming the same REST API (no duplicate endpoint logic).
 - [ ] Employee: login → view/edit profile (photo, phone, password) → check-in/out → summary with date-range filter.
 - [ ] Admin (HRD): add/update employee data; view all attendance (read-only).
-- [ ] Profile change triggers: (1) SSE notification on admin page, (2) RabbitMQ event logged to a **separate** database.
+- [ ] Profile change triggers: (1) notification on admin page (SSE or Firebase — D-004
+  pending), (2) RabbitMQ event logged to a **separate** database.
 - [ ] Stack pinned (see `docs/conventions.md`); no secrets baked into source or images.
 - [ ] Responsive on browser and mobile.
 
 ## Known risks
 
 - Timebox (3–4 days): keep scope tight; reuse patterns, not code.
-- SSE + RabbitMQ add moving parts — implement after core CRUD works.
+- Notification (SSE/Firebase) + RabbitMQ add moving parts — implement after core CRUD works.
 - Two databases (main + audit) — keep connection/queue config env-driven.
 
 ## Timeline

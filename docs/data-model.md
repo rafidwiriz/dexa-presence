@@ -26,12 +26,13 @@ Two databases:
 |---|---|---|
 | id | uuid | PK |
 | employee_id | uuid | FK → employees.id |
-| check_type | varchar(10) | `masuk` \| `pulang` |
-| check_at | timestamptz | tanggal + waktu (clock-in/out time) |
+| check_type | enum | `in` \| `out` (English per D-012; frontend translates to Masuk/Pulang) |
+| check_at | timestamptz | tanggal + waktu (clock-in/out time, server-stamped) |
 | created_at | timestamptz | |
 
 Summary (per spec) = rows of **Tanggal | Masuk | Pulang**, i.e. group `attendance`
-by `date(check_at)` for a given employee and date range.
+by day in the user's timezone (`check_at AT TIME ZONE :tz`, D-011) for a given
+employee and date range.
 
 ## Audit log DB — `dexa_audit`
 

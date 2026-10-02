@@ -7,19 +7,18 @@ Base URL: `http://localhost:3000/api` (dev). JSON bodies, `Authorization: Bearer
 | Method | Path | Body | Returns | Notes |
 |---|---|---|---|---|
 | POST | `/api/auth/login` | `{ company_email, password }` | `{ accessToken, employee }` | issue JWT |
-| GET | `/api/auth/me` | — | `employee` | current user |
+| PATCH | `/api/auth/password` | `{ current_password, new_password }` | `{ ok }` | self-service, verifies current |
 
 ## Employee
 
 | Method | Path | Body | Returns | Notes |
 |---|---|---|---|---|
 | GET | `/api/employees/:id` | — | `employee` | own profile (self) or admin-visible |
-| PATCH | `/api/employees/:id` | partial `{ name, phone, photo_url, position }` | `employee` | self: phone+photo only; admin: all. Publishes `profile.updated` |
+| PATCH | `/api/employees/:id` | partial `{ name, phone, photo_url, position }` | `employee` | self: phone+photo only; admin: all. *(planned)* publishes `profile.updated` |
 | GET | `/api/employees` | — | `employee[]` | admin only (list) |
 | POST | `/api/employees` | `{ name, company_email, password, position, phone, role }` | `employee` | admin only (create) |
-| POST | `/api/employees/:id/photo` | multipart file | `{ photo_url }` | upload photo |
-
-| PATCH | `/api/auth/password` | `{ current_password, new_password }` | `{ ok }` | self-service, verifies current |
+| DELETE | `/api/employees/:id` | — | `204` | admin only |
+| POST | `/api/employees/:id/photo` | multipart file | `{ photo_url }` | *(planned)* upload photo |
 
 ## Attendance
 
@@ -31,13 +30,15 @@ Base URL: `http://localhost:3000/api` (dev). JSON bodies, `Authorization: Bearer
 |---|---|---|---|---|
 | POST | `/api/attendance/check` | `{ check_type: "in" \| "out" }` | `attendance` | server stamps `check_at` (UTC) |
 | GET | `/api/attendance/summary?from=YYYY-MM-DD&to=YYYY-MM-DD&tz=Asia/Jakarta` | — | `[{ date, check_in, check_out }]` | own records; day-grouped in `tz`; default month-start → today |
-| GET | `/api/attendance?employeeId=&from=&to=&tz=` | — | `attendance[]` | admin only, read-only all employees |
+| GET | `/api/attendance?employeeId=&from=&to=&tz=` | — | `attendance[]` | *(planned)* admin only, read-only all employees |
 
-## Notifications (SSE)
+## Notifications (SSE — D-004 pending)
 
 | Method | Path | Returns | Notes |
 |---|---|---|---|
-| GET | `/api/notifications/stream` | `text/event-stream` | monitoring app subscribes; event `profile.updated` with payload |
+| GET | `/api/notifications/stream` | `text/event-stream` | *(planned)* monitoring app subscribes; event `profile.updated` with payload |
+
+> Choice between SSE and Firebase is deferred (D-004); this route documents the SSE option.
 
 ## Error format
 

@@ -6,13 +6,13 @@
 |---|---|---|---|
 | Runtime | Node | 22 LTS | via `.nvmrc` in each app |
 | API framework | NestJS | 10 | TypeScript strict |
-| ORM | TypeORM | 0.3 | migrations + entities |
+| ORM | TypeORM | 0.3 | `@nestjs/typeorm@10`; entities + migrations |
 | Frontend | React + Vite | React 18, Vite 5 | TypeScript |
 | CSS | TBD (Tailwind recommended) | — | record decision in decision-log |
 | DB | PostgreSQL | 16 | main DB |
 | Audit DB | PostgreSQL | 16 | separate database (`dexa_audit`) |
 | Queue | RabbitMQ | 3.13 | dockerized |
-| Notification | SSE | — | browser-native, no external account |
+| Notification | SSE or Firebase | — | **pending D-004** |
 
 Pin exact versions in `package.json` / `docker/compose.yml`; record any bump in
 `docs/decision-log.md`.
@@ -30,7 +30,10 @@ Pin exact versions in `package.json` / `docker/compose.yml`; record any bump in
 ## Environment & secrets
 
 - Everything via env vars; per-app `.env` from `.env.example` — never committed.
-- `DATABASE_URL`, `AUDIT_DATABASE_URL`, `RABBITMQ_URL`, `JWT_SECRET`, `PORT`.
+- API uses discrete vars (see `apps/api/.env.example`): `DATABASE_HOST`,
+  `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`,
+  `PORT`, `JWT_SECRET`. Audit DB + RabbitMQ vars added when those features land
+  (`AUDIT_DATABASE_*`, `RABBITMQ_URL`).
 - No secrets in source, images, or this repo.
 
 ## API style
