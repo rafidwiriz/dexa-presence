@@ -117,11 +117,14 @@ ADR-style. Format: date · decision · context · consequence.
 - Producer diff-only: `update()` compares before/after and emits only changed fields
   (`name`, `position`, `phone`, `photo_url`); no-op PATCH emits nothing.
 
-## D-014 · Audit DB provisioning
+## D-014 · Audit DB provisioning via Postgres init script
 - **2026-10-02**
-- `dexa_audit` is a separate database. Postgres compose creates only `dexa_presence`,
-  so `dexa_audit` must be created out-of-band (manual `CREATE DATABASE` or a compose
-  init script) before first run.
+- `dexa_audit` is a separate database. Compose only creates `dexa_presence` via
+  `POSTGRES_DB`. Added `docker/postgres/init/01-create-audit-db.sql` mounted into
+  `/docker-entrypoint-initdb.d` so `dexa_audit` is created automatically on **fresh**
+  Postgres volume.
+- Caveat: init scripts run only on a fresh volume. If the `postgres_data` volume
+  already exists, drop it (`docker compose down -v`) or create `dexa_audit` manually.
 
 ## Open decisions (to be made during implementation)
 - CSS framework for the frontends (Tailwind recommended, to record here).

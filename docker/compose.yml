@@ -6,7 +6,9 @@ services:
       POSTGRES_PASSWORD: dexa
       POSTGRES_DB: dexa_presence
     ports: ["5432:5432"]
-    volumes: [postgres_data:/var/lib/postgresql/data]
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
     healthcheck: { test: ["CMD-SHELL", "pg_isready -U dexa -d dexa_presence"], interval: 5s, retries: 10 }
   rabbitmq:
     image: rabbitmq:3.13-management-alpine

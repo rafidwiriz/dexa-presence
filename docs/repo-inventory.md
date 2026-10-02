@@ -22,7 +22,7 @@ dexa-presence/
 | Docs scaffold | ✅ | plan, requirements, architecture, data-model, api-contracts, conventions, decision-log, nestjs-flask-guide |
 | apps/api | ✅ scaffolded | NestJS 10 + TypeORM 0.3, builds clean |
 | apps/web | ⬜ not started | |
-| docker compose | ✅ file written | `docker/compose.yml` (postgres 16, rabbitmq 3.13); containers not started yet |
+| docker compose | ✅ | postgres 16 + rabbitmq 3.13 + audit-DB init script; containers not started yet |
 | DB schema | 🟡 entities only | `synchronize: true` (dev); no migrations yet; audit DB not created |
 | Auth | ✅ | JWT login (`POST /auth/login`), password change (`PATCH /auth/password`), bcrypt |
 | Employees CRUD | ✅ | list/get/create/update/delete; self vs admin guards (D-010) |
