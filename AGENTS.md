@@ -54,6 +54,9 @@ dexa-presence/
   recorded in `docs/`; ambiguous decisions go to `docs/decision-log.md`.
 - **Sequencing:** phase N complete before phase N+1. Reuse patterns, not code.
 - **No git history rewriting or restructuring** unless explicitly requested.
+- **The user writes the code.** Guide step by step, explain concepts, review what the
+  user writes — but **do NOT write/edit application code unless the user explicitly
+  asks**. Docs (markdown) are fine to update.
 
 <!-- lean-ctx -->
 ## lean-ctx

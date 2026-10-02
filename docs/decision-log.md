@@ -21,15 +21,16 @@ ADR-style. Format: date · decision · context · consequence.
   no cloud account), over Kafka (heavier) and AWS SQS/GCP Pub-Sub (cloud accounts).
 
 ## D-004 · Notification: SSE (DECIDED 2026-10-02)
-- **2026-10-01** (opened, deferred); **decided 2026-10-02** — chose **SSE**.
+- **2026-10-01** (opened, deferred); **decided 2026-10-02** — user chose **SSE**.
 - Spec allows any technology for the admin-page alert on profile change ("bisa
   menggunakan Firebase atau yang lainnya").
-- Chosen: **SSE** — browser-native `EventSource`, zero external dependency, no
-  Firebase account/API keys (keeps "no secrets" rule), fits NestJS (`@Sse()`).
+- Chosen: **SSE** — browser-native `EventSource`, zero external dependency, no account
+  or API keys (keeps the "no secrets in source" rule), fits NestJS (`@Sse()`).
   Enough for a one-way "profile change happened" alert on the monitoring app.
-- Alternative considered: Firebase Realtime DB/FCM (more powerful, but external
-  account + credentials); WebSocket (bidirectional — overkill for one-way alerts);
-  polling (simplest but laggy/wasteful).
+- Alternatives compared: Firebase (free tier, but Google account + project + keys +
+  SDK on both sides); WebSocket (bidirectional — overkill for one-way alerts);
+  polling (simplest but laggy/wasteful); Pusher/Ably (hosted, same friction as
+  Firebase).
 - Consequence: monitoring frontend subscribes to `GET /api/notifications/stream` via
   `EventSource`; backend publishes SSE events when `profile.updated` is consumed.
 
