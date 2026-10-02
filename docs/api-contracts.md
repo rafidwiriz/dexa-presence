@@ -30,7 +30,7 @@ Base URL: `http://localhost:3000/api` (dev). JSON bodies, `Authorization: Bearer
 |---|---|---|---|---|
 | POST | `/api/attendance/check` | `{ check_type: "in" \| "out" }` | `attendance` | server stamps `check_at` (UTC) |
 | GET | `/api/attendance/summary?from=YYYY-MM-DD&to=YYYY-MM-DD&tz=Asia/Jakarta` | — | `[{ date, check_in, check_out }]` | own records; day-grouped in `tz`; default month-start → today |
-| GET | `/api/attendance?employeeId=&from=&to=&tz=` | — | `attendance[]` | *(planned)* admin only, read-only all employees |
+| GET | `/api/attendance?employeeId=&from=&to=` | — | `attendance[]` | admin only, read-only all employees (raw records + employee) |
 
 ## Notifications (SSE — D-004 pending)
 

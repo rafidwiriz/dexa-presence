@@ -4,8 +4,11 @@ import { AuthUser } from '../auth/jwt-auth.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AttendanceService } from './attendance.service';
 import { CheckInOutDto } from './attendance.dto';
+import { Roles } from '../auth/roles.decorator';
+import { EmployeeRole } from '../employees/employee.entity';
+import { RolesGuard } from '../auth/roles.guard';
 
-@UseGuards(JwtAuthGuard) // every route needs a login
+@UseGuards(JwtAuthGuard, RolesGuard) // every route needs a login
 @Controller('attendance')
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
@@ -28,5 +31,15 @@ export class AttendanceController {
       to,
       tz ?? 'Asia/Jakarta',
     );
+  }
+
+  @Roles(EmployeeRole.ADMIN)
+  @Get()
+  findAll(
+    @Query('employeeId') employeeId?: string,
+    @Query('from') from?: string,
+    @Query('to') to?: string,
+  ) {
+    return this.attendanceService.findAll(employeeId, from, to);
   }
 }

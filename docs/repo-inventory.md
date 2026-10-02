@@ -26,7 +26,7 @@ dexa-presence/
 | DB schema | 🟡 entities only | `synchronize: true` (dev); no migrations yet; audit DB not created |
 | Auth | ✅ | JWT login (`POST /auth/login`), password change (`PATCH /auth/password`), bcrypt |
 | Employees CRUD | ✅ | list/get/create/update/delete; self vs admin guards (D-010) |
-| Attendance | 🟡 employee side | check in/out + tz-aware summary done; admin read-only view *(next)* |
+| Attendance | ✅ | employee check in/out + tz-aware summary; admin read-only view (all employees, filters) |
 | Photo upload | ⬜ not started | `POST /employees/:id/photo` *(planned)* |
 | Notifications | ⬜ not started | SSE/Firebase — D-004 pending |
 | Profile audit | ⬜ not started | RabbitMQ → audit DB (D-006) |

@@ -56,4 +56,29 @@ export class AttendanceService {
       check_out: r.check_out ? new Date(r.check_out).toISOString() : null,
     }));
   }
+
+  findAll(
+    employeeId?: string,
+    from?: string,
+    to?: string,
+  ): Promise<Attendance[]> {
+    const query = this.repo.createQueryBuilder('attendance')
+      .leftJoinAndSelect('attendance.employee', 'employee')
+      .orderBy('attendance.check_at', 'DESC');
+
+    if (employeeId) {
+      query.andWhere('attendance.employee_id = :employeeId', { employeeId });
+    }
+    if (from && to) {
+      query.andWhere(
+        'attendance.check_at >= :from AND attendance.check_at <= :to',
+        {
+          from: new Date(from).toISOString(),
+          to: new Date(to).toISOString(),
+        },
+      );
+    }
+
+    return query.getMany();
+  }
 }
