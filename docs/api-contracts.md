@@ -18,7 +18,7 @@ Base URL: `http://localhost:3000/api` (dev). JSON bodies, `Authorization: Bearer
 | GET | `/api/employees` | — | `employee[]` | admin only (list) |
 | POST | `/api/employees` | `{ name, company_email, password, position, phone, role }` | `employee` | admin only (create) |
 | DELETE | `/api/employees/:id` | — | `204` | admin only |
-| POST | `/api/employees/:id/photo` | multipart file | `{ photo_url }` | *(planned)* upload photo |
+| POST | `/api/employees/:id/photo` | multipart field `photo` (≤2MB) | `employee` (updated, incl. `photo_url`) | self or admin; random filename |
 
 ## Attendance
 

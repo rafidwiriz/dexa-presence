@@ -27,7 +27,7 @@ dexa-presence/
 | Auth | ✅ | JWT login (`POST /auth/login`), password change (`PATCH /auth/password`), bcrypt |
 | Employees CRUD | ✅ | list/get/create/update/delete; self vs admin guards (D-010) |
 | Attendance | ✅ | employee check in/out + tz-aware summary; admin read-only view (all employees, filters) |
-| Photo upload | ⬜ not started | `POST /employees/:id/photo` *(planned)* |
+| Photo upload | ✅ | `POST /employees/:id/photo` → `uploads/`, served at `/api/uploads/*` |
 | Notifications | ⬜ not started | SSE/Firebase — D-004 pending |
 | Profile audit | ⬜ not started | RabbitMQ → audit DB (D-006) |
 | Frontends | ⬜ not started | absensi (profil, absen, summary) + monitoring (CRUD, read-only absensi) |
