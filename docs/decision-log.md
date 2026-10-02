@@ -20,17 +20,18 @@ ADR-style. Format: date · decision · context · consequence.
 - Spec requires a stream/queue to a separate audit DB. Chose RabbitMQ (dockerized,
   no cloud account), over Kafka (heavier) and AWS SQS/GCP Pub-Sub (cloud accounts).
 
-## D-004 · Notification: SSE (DEFERRED — pending user preference)
-- **2026-10-01** (opened); **deferred 2026-10-01** — user unfamiliar with SSE; PDF names
-  Firebase. No change to D-004 until user picks between SSE and Firebase.
+## D-004 · Notification: SSE (DECIDED 2026-10-02)
+- **2026-10-01** (opened, deferred); **decided 2026-10-02** — chose **SSE**.
 - Spec allows any technology for the admin-page alert on profile change ("bisa
   menggunakan Firebase atau yang lainnya").
-- Candidate A — **SSE**: browser-native `EventSource`, zero external dependency, ~10
-  lines in NestJS (`@Sse()` route). Enough for "a profile change happened" alert.
-- Candidate B — **Firebase** (Realtime DB or FCM): the tech the PDF names; more
-  powerful, but needs a Firebase project + API keys in `.env` (external account).
-- **Open question:** pick A or B when we reach the notification feature. Deferred so
-  backend work is not blocked. Also considered: WebSocket (bidirectional, overkill).
+- Chosen: **SSE** — browser-native `EventSource`, zero external dependency, no
+  Firebase account/API keys (keeps "no secrets" rule), fits NestJS (`@Sse()`).
+  Enough for a one-way "profile change happened" alert on the monitoring app.
+- Alternative considered: Firebase Realtime DB/FCM (more powerful, but external
+  account + credentials); WebSocket (bidirectional — overkill for one-way alerts);
+  polling (simplest but laggy/wasteful).
+- Consequence: monitoring frontend subscribes to `GET /api/notifications/stream` via
+  `EventSource`; backend publishes SSE events when `profile.updated` is consumed.
 
 ## D-005 · Microservices = NestJS modules behind one REST gateway
 - **2026-10-01**

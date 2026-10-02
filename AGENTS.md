@@ -2,6 +2,13 @@
 
 Working rules for this project. Read this before making changes.
 
+## Deadline — DO NOT FORGET
+
+- **Deadline: Oct 6, 2026, 08:00** (spec: 3–4 days, max 5).
+- Progress tracked in `docs/plan.md` → "Deadline tracking" (checkpoint table).
+- Update the table at the start/end of each working session.
+- Remaining work (largest first): frontend apps, notifications, hardening.
+
 ## Mission
 
 Build the **Fullstack Web Technical Test** for Dexa Group: two responsive web
@@ -11,8 +18,9 @@ microservices (REST API), per the spec in `docs/requirements.md`. Deliver within
 
 ## Current state
 
-Scaffolding complete (structure + docs). Code not yet written. See status table in
-`README.md` and the source of truth `docs/repo-inventory.md`.
+Backend API largely built (auth, employees CRUD + photo, attendance, profile-audit
+via RabbitMQ). Frontend + notifications pending. See status table in `README.md` and
+the source of truth `docs/repo-inventory.md`.
 
 ## Non-negotiables
 

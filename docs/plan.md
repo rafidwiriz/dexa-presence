@@ -42,3 +42,14 @@ admins) sharing a NestJS microservices REST API. Completed in **3–4 days (max 
 - Day 2: Phase 4 (API + queue + SSE).
 - Day 3: Phase 5 (frontends).
 - Day 4: Phase 6 (hardening, polish, runbook). Buffer to Day 5 if needed.
+
+## Deadline tracking
+
+- **Deadline:** Oct 6, 2026, 08:00.
+- Checkpoint (2026-10-02 16:55): backend ~90% done (auth, employees CRUD, photo,
+  attendance, profile-audit/RabbitMQ). Remaining: notifications (SSE/Firebase),
+  frontend apps, hardening. On track — ~87h left, ~55% done.
+
+| Checkpoint | Elapsed | Remaining | Progress | Status |
+|---|---|---|---|---|
+| 2026-10-02 16:55 | ~2 days | ~3.6 days | ~55% | 🟢 on track |
