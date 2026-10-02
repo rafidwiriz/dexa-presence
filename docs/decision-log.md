@@ -82,6 +82,23 @@ ADR-style. Format: date · decision · context · consequence.
 - Implemented via `JwtAuthGuard` (all routes) + `RolesGuard`/`@Roles(ADMIN)` (admin
   routes) + field-level allowlist for self-update.
 
+## D-011 · Time handling: UTC storage, client-local display, tz-aware summary
+- **2026-10-02**
+- `check_at` is server-stamped as `timestamptz` (UTC) — employees cannot fake times.
+- API returns ISO 8601 UTC (`...Z`); the frontend formats to browser-local time for
+  display (no server clock needed client-side).
+- Summary day-grouping is **timezone-aware**: client sends `tz` (IANA name, e.g.
+  `Asia/Jakarta`) as a query param; the service groups `check_at AT TIME ZONE :tz`
+  so days align with the user's local day boundary, not UTC.
+
+## D-012 · Language: English in backend code/API, Indonesian on frontend
+- **2026-10-01**
+- Backend (entities, variables, DTOs, API values) uses English: `CheckType.IN = 'in'`,
+  `CheckType.OUT = 'out'`; summary returns `check_in`/`check_out`. Indonesian
+  ("Masuk"/"Pulang") is a **frontend translation concern**.
+- API contract in `docs/api-contracts.md` updated to English values.
+- Future: optional i18n layer (English mode) on the frontend — deferred, not designed yet.
+
 ## Open decisions (to be made during implementation)
 - CSS framework for the frontends (Tailwind recommended, to record here).
 - Photo storage: local upload dir vs object storage (local for the test).
