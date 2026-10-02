@@ -63,7 +63,10 @@ export class EmployeesController {
         throw new ForbiddenException('You can only edit your own profile');
       }
       const forbidden = Object.keys(dto).filter(
-        (key) => !SELF_EDITABLE_FIELDS.includes(key as (typeof SELF_EDITABLE_FIELDS)[number]),
+        (key) =>
+          !SELF_EDITABLE_FIELDS.includes(
+            key as (typeof SELF_EDITABLE_FIELDS)[number],
+          ),
       );
       if (forbidden.length > 0) {
         throw new ForbiddenException(
