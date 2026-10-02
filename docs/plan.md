@@ -54,3 +54,4 @@ admins) sharing a NestJS microservices REST API. Completed in **3–4 days (max 
 |---|---|---|---|---|
 | 2026-10-02 16:55 | ~2 days | ~3.6 days | ~55% | 🟢 on track |
 | 2026-10-02 late | ~2 days | ~3.5 days | ~60% | 🟢 backend complete (auth, employees, photo, attendance, profile-audit, notifications/SSE); frontend is the big remaining block |
+| 2026-10-02 23:45 | ~2 days | ~3.5 days | ~62% | 🟢 backend **verified running**: infra up (postgres+rabbitmq), API boots, seeded admin+employee, smoke-tested login/CRUD/attendance/SSE/RMQ→audit DB. Missing deps fixed (`@nestjs/microservices`, `amqplib`, `amqp-connection-manager`). Found hardening issues: `password_hash` leaked in responses, admin attendance list returns `employee:null` |

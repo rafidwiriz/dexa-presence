@@ -31,6 +31,7 @@ dexa-presence/
 | Notifications | ✅ | SSE `GET /notifications/stream`; `profile.updated` → RxJS Subject → subscribers |
 | Profile audit | ✅ | RabbitMQ `profile.updated` → `dexa_audit.profile_changes` (separate connection) |
 | Frontends | ⬜ not started | absensi (profil, absen, summary) + monitoring (CRUD, read-only absensi) |
+| Backend runtime | ✅ verified 2026-10-02 | infra up (postgres 16 + rabbitmq 3.13), API boots clean, all routes smoke-tested end-to-end |
 
 ## Services / ports / versions
 
@@ -51,3 +52,9 @@ See `docs/conventions.md` (single source for ports + pinned versions).
 - NestJS scaffold uses Nest 10 (needs `@nestjs/config@3`, `@nestjs/typeorm@10`,
   `typeorm@0.3` — see D-008/D-009).
 - `npm audit` on the scaffold reports 24 vulns; accepted for the test (D-008).
+- **2026-10-02 smoke test:** backend verified running. `@nestjs/microservices`, `amqplib`,
+  `amqp-connection-manager` were missing from `package.json` (RMQ code had never been
+  compiled) — added via `npm install`.
+- **2026-10-02 hardening findings (Phase 6):** (1) `password_hash` is returned in
+  auth/employee responses — must be excluded from serialization; (2) admin attendance
+  list returns `employee: null` — relation not loaded in `AttendanceService.findAll`.
