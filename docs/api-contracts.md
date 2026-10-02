@@ -32,13 +32,13 @@ Base URL: `http://localhost:3000/api` (dev). JSON bodies, `Authorization: Bearer
 | GET | `/api/attendance/summary?from=YYYY-MM-DD&to=YYYY-MM-DD&tz=Asia/Jakarta` | — | `[{ date, check_in, check_out }]` | own records; day-grouped in `tz`; default month-start → today |
 | GET | `/api/attendance?employeeId=&from=&to=` | — | `attendance[]` | admin only, read-only all employees (raw records + employee) |
 
-## Notifications (SSE — D-004 pending)
+## Notifications (SSE — D-004)
 
 | Method | Path | Returns | Notes |
 |---|---|---|---|
-| GET | `/api/notifications/stream` | `text/event-stream` | *(planned)* monitoring app subscribes; event `profile.updated` with payload |
+| GET | `/api/notifications/stream` | `text/event-stream` | monitoring app subscribes via `EventSource`; receives `profile.updated` events (type + payload) |
 
-> Choice between SSE and Firebase is deferred (D-004); this route documents the SSE option.
+Event name (`type`): `profile.updated`. Data = the `profile.updated` RabbitMQ payload.
 
 ## Error format
 

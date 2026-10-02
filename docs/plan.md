@@ -53,3 +53,4 @@ admins) sharing a NestJS microservices REST API. Completed in **3–4 days (max 
 | Checkpoint | Elapsed | Remaining | Progress | Status |
 |---|---|---|---|---|
 | 2026-10-02 16:55 | ~2 days | ~3.6 days | ~55% | 🟢 on track |
+| 2026-10-02 late | ~2 days | ~3.5 days | ~60% | 🟢 backend complete (auth, employees, photo, attendance, profile-audit, notifications/SSE); frontend is the big remaining block |

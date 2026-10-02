@@ -28,7 +28,7 @@ dexa-presence/
 | Employees CRUD | ✅ | list/get/create/update/delete; self vs admin guards (D-010) |
 | Attendance | ✅ | employee check in/out + tz-aware summary; admin read-only view (all employees, filters) |
 | Photo upload | ✅ | `POST /employees/:id/photo` → `uploads/`, served at `/api/uploads/*` |
-| Notifications | ⬜ not started | SSE/Firebase — D-004 pending |
+| Notifications | ✅ | SSE `GET /notifications/stream`; `profile.updated` → RxJS Subject → subscribers |
 | Profile audit | ✅ | RabbitMQ `profile.updated` → `dexa_audit.profile_changes` (separate connection) |
 | Frontends | ⬜ not started | absensi (profil, absen, summary) + monitoring (CRUD, read-only absensi) |
 
