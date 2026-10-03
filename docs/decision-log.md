@@ -139,7 +139,16 @@ ADR-style. Format: date · decision · context · consequence.
   - `POST /api/employees` → **201**: creates an employee (default).
 - Insomnia collection assertions updated to match.
 
+## D-016 · Frontend CSS: Tailwind CSS v4 (via `@tailwindcss/vite`)
+- **2026-10-03**
+- Chosen Tailwind for the frontends (recommended in conventions). Version **4** line,
+  integrated through the `@tailwindcss/vite` plugin — no `tailwind.config.js` /
+  PostCSS config files needed (v4 is CSS-first: one `@import "tailwindcss";` line).
+- Rationale: utility classes in JSX keep styling close to markup (good for a
+  non-design-focused contributor), and `md:`/`lg:` breakpoints give responsive
+  mobile/desktop for free (requirement: responsive both apps).
+- No Tailwind config file unless a future need forces one.
+
 ## Open decisions (to be made during implementation)
-- CSS framework for the frontends (Tailwind recommended, to record here).
 - Photo storage: local upload dir vs object storage (local for the test).
 - NestJS layout: single app with modules vs monorepo `apps/`+`libs/`.

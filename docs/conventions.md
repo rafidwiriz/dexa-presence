@@ -8,7 +8,7 @@
 | API framework | NestJS | 10 | TypeScript strict |
 | ORM | TypeORM | 0.3 | `@nestjs/typeorm@10`; entities + migrations |
 | Frontend | React + Vite | React 18, Vite 5 | TypeScript |
-| CSS | TBD (Tailwind recommended) | — | record decision in decision-log |
+| CSS | Tailwind | v4 via `@tailwindcss/vite` (D-016) | CSS-first, no config file |
 | DB | PostgreSQL | 16 | main DB |
 | Audit DB | PostgreSQL | 16 | separate database (`dexa_audit`) |
 | Queue | RabbitMQ | 3.13 | dockerized |
