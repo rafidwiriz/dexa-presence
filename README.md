@@ -11,8 +11,8 @@ WFH attendance + HRD monitoring web apps backed by NestJS microservices.
 | 2 — Infra | ✅ docker compose: postgres 16 + rabbitmq 3.13 (running) |
 | 3 — Database schema | 🟡 Entities only (`synchronize` dev-mode); migrations pending |
 | 4 — API microservices | ✅ Auth + employees + photo + attendance + profile-audit (RabbitMQ) + notifications (SSE) built & verified |
-| 5 — Frontend apps | 🟡 Absensi done (login, profil+edit, absen, summary); monitoring pending |
-| 6 — Hardening | ⬜ Not started |
+| 5 — Frontend apps | ✅ Absensi (login, profil+edit, absen, summary) + monitoring (employees CRUD, read-only attendance, SSE toasts) |
+| 6 — Hardening | 🟡 In progress |
 
 ## Documents
 
