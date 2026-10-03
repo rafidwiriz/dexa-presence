@@ -52,6 +52,6 @@ Written only by the ProfileAudit consumer (separate DB connection).
 
 - Timestamps `timestamptz`, IDs `uuid` (app-generated).
 - Indexes: `employees(company_email)` unique (from column constraint).
-  `attendance(employee_id, check_at)` is planned but **not yet implemented** — tracked
-  in the hardening backlog.
+  `attendance(employee_id, check_at)` — **implemented 2026-10-03** via `@Index`
+  (D-023; `synchronize` creates it).
 - Env-driven connection strings — never hard-coded (see `docs/conventions.md`).

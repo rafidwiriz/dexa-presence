@@ -205,6 +205,17 @@ ADR-style. Format: date · decision · context · consequence.
 - `npm install --save-exact` alone is a no-op for existing ranges — it only affects
   newly added packages. Rewriting from the lockfile is the reliable method.
 
+## D-023 · Migrations deferred; `synchronize` kept in dev (YAGNI)
+- **2026-10-03**
+- TypeORM migrations (per-DB migration files + `migrationsRun`) are a **lot** of moving
+  parts for a 5-day technical test; the spec does not require them. Kept
+  `synchronize: true` on both connections (documented dev-mode tradeoff, Phase 3
+  "entities only"). Any future production path would switch to migrations.
+- The one schema improvement that was bundled into the migration plan was kept, done
+  lightly instead: composite `@Index('idx_attendance_employee_check_at',
+  ['employee_id','check_at'])` on the `Attendance` entity — created by `synchronize`,
+  no manual SQL. The `data-model.md` index note is now implemented.
+
 ## Open decisions (to be made during implementation)
 - None currently open — layout resolved by D-005; photo storage resolved as local
   upload dir (implemented in `uploads/`).

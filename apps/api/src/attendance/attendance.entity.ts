@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -13,6 +14,7 @@ export enum CheckType {
   OUT = 'out',
 }
 
+@Index('idx_attendance_employee_check_at', ['employee_id', 'check_at'])
 @Entity('attendance')
 export class Attendance {
   @PrimaryGeneratedColumn('uuid')
