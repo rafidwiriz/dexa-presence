@@ -1,4 +1,4 @@
-import type { AuthResponse, AttendanceRecord, AttendanceSummaryRow, Employee } from './types'
+import type { AuthResponse, AttendanceRecord, AttendanceSummaryRow, Employee, Role } from './types'
 
 export const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3000/api'
 
@@ -46,9 +46,6 @@ export const api = {
 
   getEmployee: (id: string) => request<Employee>(`/employees/${id}`),
 
-  updateEmployee: (id: string, data: Partial<Pick<Employee, 'phone'>>) =>
-    request<Employee>(`/employees/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
-
   changePassword: (current_password: string, new_password: string) =>
     request<{ ok: boolean }>('/auth/password', { method: 'PATCH', body: JSON.stringify({ current_password, new_password }) }),
 
@@ -62,5 +59,34 @@ export const api = {
     const form = new FormData()
     form.append('photo', file)
     return request<Employee>(`/employees/${id}/photo`, { method: 'POST', body: form })
+  },
+
+  listEmployees: () => request<Employee[]>('/employees'),
+
+  createEmployee: (data: {
+    name: string
+    company_email: string
+    password: string
+    position: string
+    phone?: string
+    role: Role
+  }) =>
+    request<Employee>('/employees', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  updateEmployee: (id: string, data: Partial<Pick<Employee, 'name' | 'position' | 'phone' | 'role' | 'is_active'>>) =>
+    request<Employee>(`/employees/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+
+  deleteEmployee: (id: string) =>
+    request<void>(`/employees/${id}`, { method: 'DELETE' }),
+
+  listAttendance: (params?: { employeeId?: string; from?: string; to?: string }) => {
+    const qs = new URLSearchParams()
+    if (params?.employeeId) qs.set('employeeId', params.employeeId)
+    if (params?.from) qs.set('from', params.from)
+    if (params?.to) qs.set('to', params.to)
+    return request<AttendanceRecord[]>(`/attendance?${qs.toString()}`)
   },
 }
