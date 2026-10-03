@@ -1,0 +1,300 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "resources": [
+    {
+      "_id": "wrk_dexa",
+      "_type": "workspace",
+      "name": "Dexa Presence API",
+      "description": "WFH attendance + HRD monitoring API. Endpoints from docs/api-contracts.md",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_dexa_base",
+      "_type": "environment",
+      "parentId": "wrk_dexa",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000/api",
+        "admin_email": "admin@dexa.co",
+        "admin_password": "admin123",
+        "employee_email": "budi@dexa.co",
+        "employee_password": "budi123",
+        "employee_new_password": "budi456",
+        "admin_token": "",
+        "employee_token": "",
+        "admin_id": "",
+        "employee_id": "",
+        "created_employee_id": "",
+        "new_employee_email": "test-employee@dexa.co",
+        "new_employee_password": "test1234"
+      }
+    },
+    {
+      "_id": "fld_auth",
+      "_type": "request_group",
+      "parentId": "wrk_dexa",
+      "name": "Auth",
+      "description": "Login stores the JWT into admin_token / employee_token automatically.",
+      "environment": {},
+      "metaSortKey": -1000
+    },
+    {
+      "_id": "req_login_admin",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login (Admin)",
+      "description": "Stores accessToken -> admin_token and employee.id -> admin_id",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"company_email\": \"{{ _.admin_email }}\",\n  \"password\": \"{{ _.admin_password }}\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {},
+      "parameters": [],
+      "metaSortKey": -990,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\nif (jsonBody && jsonBody.accessToken) {\n  insomnia.environment.set('admin_token', jsonBody.accessToken);\n  insomnia.environment.set('admin_id', jsonBody.employee.id);\n}\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Has accessToken', () => {\n  insomnia.expect(jsonBody && jsonBody.accessToken ? true : false).to.eql(true);\n});\ninsomnia.test('Has employee.id', () => {\n  insomnia.expect(jsonBody && jsonBody.employee && jsonBody.employee.id ? true : false).to.eql(true);\n});"
+    },
+    {
+      "_id": "req_login_employee",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Login (Employee)",
+      "description": "Stores accessToken -> employee_token and employee.id -> employee_id",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/login",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"company_email\": \"{{ _.employee_email }}\",\n  \"password\": \"{{ _.employee_password }}\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": {},
+      "parameters": [],
+      "metaSortKey": -980,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\nif (jsonBody && jsonBody.accessToken) {\n  insomnia.environment.set('employee_token', jsonBody.accessToken);\n  insomnia.environment.set('employee_id', jsonBody.employee.id);\n}\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Has accessToken', () => {\n  insomnia.expect(jsonBody && jsonBody.accessToken ? true : false).to.eql(true);\n});"
+    },
+    {
+      "_id": "req_change_password",
+      "_type": "request",
+      "parentId": "fld_auth",
+      "name": "Change Password (self)",
+      "description": "Self-service. After running, update employee_password to {{ _.employee_new_password }} to re-login.",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/auth/password",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"current_password\": \"{{ _.employee_password }}\",\n  \"new_password\": \"{{ _.employee_new_password }}\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.employee_token }}" },
+      "parameters": [],
+      "metaSortKey": -970,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Returns ok', () => {\n  insomnia.expect(jsonBody && jsonBody.ok === true).to.eql(true);\n});"
+    },
+    {
+      "_id": "fld_employees",
+      "_type": "request_group",
+      "parentId": "wrk_dexa",
+      "name": "Employees",
+      "description": "Admin CRUD + self profile. Create stores id -> created_employee_id.",
+      "environment": {},
+      "metaSortKey": -900
+    },
+    {
+      "_id": "req_list_employees",
+      "_type": "request",
+      "parentId": "fld_employees",
+      "name": "List Employees (admin)",
+      "description": "Admin only.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/employees",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "bearer", "token": "{{ _.admin_token }}" },
+      "parameters": [],
+      "metaSortKey": -890,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Is an array', () => {\n  insomnia.expect(Array.isArray(jsonBody)).to.eql(true);\n});"
+    },
+    {
+      "_id": "req_get_my_profile",
+      "_type": "request",
+      "parentId": "fld_employees",
+      "name": "Get My Profile (self)",
+      "description": "Employee reads own profile.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/employees/{{ _.employee_id }}",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "bearer", "token": "{{ _.employee_token }}" },
+      "parameters": [],
+      "metaSortKey": -880,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Is own id', () => {\n  insomnia.expect(jsonBody && jsonBody.id === insomnia.environment.get('employee_id')).to.eql(true);\n});"
+    },
+    {
+      "_id": "req_create_employee",
+      "_type": "request",
+      "parentId": "fld_employees",
+      "name": "Create Employee (admin)",
+      "description": "Stores new id -> created_employee_id for update/delete.",
+      "method": "POST",
+      "url": "{{ _.base_url }}/employees",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Test Employee\",\n  \"company_email\": \"{{ _.new_employee_email }}\",\n  \"password\": \"{{ _.new_employee_password }}\",\n  \"position\": \"QA Engineer\",\n  \"phone\": \"0812-9999-8888\",\n  \"role\": \"employee\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.admin_token }}" },
+      "parameters": [],
+      "metaSortKey": -870,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\nif (jsonBody && jsonBody.id) {\n  insomnia.environment.set('created_employee_id', jsonBody.id);\n}\ninsomnia.test('Status is 201', () => {\n  insomnia.expect(insomnia.response.code).to.eql(201);\n});\ninsomnia.test('Has id', () => {\n  insomnia.expect(jsonBody && jsonBody.id ? true : false).to.eql(true);\n});"
+    },
+    {
+      "_id": "req_update_employee",
+      "_type": "request",
+      "parentId": "fld_employees",
+      "name": "Update Employee (admin)",
+      "description": "PATCH on the created employee.",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/employees/{{ _.created_employee_id }}",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"position\": \"Senior QA Engineer\",\n  \"phone\": \"0812-1111-2222\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.admin_token }}" },
+      "parameters": [],
+      "metaSortKey": -860,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Phone updated', () => {\n  insomnia.expect(jsonBody && jsonBody.phone === '0812-1111-2222').to.eql(true);\n});"
+    },
+    {
+      "_id": "req_upload_photo",
+      "_type": "request",
+      "parentId": "fld_employees",
+      "name": "Upload Photo (self)",
+      "description": "Multipart field 'photo', <=2MB. Pick a file in the Body tab.",
+      "method": "POST",
+      "url": "{{ _.base_url }}/employees/{{ _.employee_id }}/photo",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [{ "name": "photo", "type": "file", "fileName": "" }]
+      },
+      "headers": [],
+      "authentication": { "type": "bearer", "token": "{{ _.employee_token }}" },
+      "parameters": [],
+      "metaSortKey": -850,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Has photo_url', () => {\n  insomnia.expect(jsonBody && jsonBody.photo_url ? true : false).to.eql(true);\n});"
+    },
+    {
+      "_id": "req_delete_employee",
+      "_type": "request",
+      "parentId": "fld_employees",
+      "name": "Delete Employee (admin)",
+      "description": "Deletes the created test employee (cleanup).",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/employees/{{ _.created_employee_id }}",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "bearer", "token": "{{ _.admin_token }}" },
+      "parameters": [],
+      "metaSortKey": -840,
+      "afterResponseScript": "insomnia.test('Status is 204', () => {\n  insomnia.expect(insomnia.response.code).to.eql(204);\n});"
+    },
+    {
+      "_id": "fld_attendance",
+      "_type": "request_group",
+      "parentId": "wrk_dexa",
+      "name": "Attendance",
+      "description": "Employee check in/out + summary; admin read-only view.",
+      "environment": {},
+      "metaSortKey": -800
+    },
+    {
+      "_id": "req_check_in",
+      "_type": "request",
+      "parentId": "fld_attendance",
+      "name": "Check In (Masuk)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/attendance/check",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"check_type\": \"in\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.employee_token }}" },
+      "parameters": [],
+      "metaSortKey": -790,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('check_type is in', () => {\n  insomnia.expect(jsonBody && jsonBody.check_type === 'in').to.eql(true);\n});"
+    },
+    {
+      "_id": "req_check_out",
+      "_type": "request",
+      "parentId": "fld_attendance",
+      "name": "Check Out (Pulang)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/attendance/check",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"check_type\": \"out\"\n}"
+      },
+      "headers": [{ "name": "Content-Type", "value": "application/json" }],
+      "authentication": { "type": "bearer", "token": "{{ _.employee_token }}" },
+      "parameters": [],
+      "metaSortKey": -780,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('check_type is out', () => {\n  insomnia.expect(jsonBody && jsonBody.check_type === 'out').to.eql(true);\n});"
+    },
+    {
+      "_id": "req_summary",
+      "_type": "request",
+      "parentId": "fld_attendance",
+      "name": "Summary (self, tz-aware)",
+      "description": "Default: start of month -> today. Add from/to=YYYY-MM-DD to filter.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/attendance/summary?tz=Asia/Jakarta",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "bearer", "token": "{{ _.employee_token }}" },
+      "parameters": [],
+      "metaSortKey": -770,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Is an array', () => {\n  insomnia.expect(Array.isArray(jsonBody)).to.eql(true);\n});"
+    },
+    {
+      "_id": "req_admin_attendance",
+      "_type": "request",
+      "parentId": "fld_attendance",
+      "name": "All Attendance (admin, read-only)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/attendance",
+      "body": {},
+      "headers": [],
+      "authentication": { "type": "bearer", "token": "{{ _.admin_token }}" },
+      "parameters": [],
+      "metaSortKey": -760,
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Is an array', () => {\n  insomnia.expect(Array.isArray(jsonBody)).to.eql(true);\n});"
+    },
+    {
+      "_id": "fld_notifications",
+      "_type": "request_group",
+      "parentId": "wrk_dexa",
+      "name": "Notifications (SSE)",
+      "description": "Long-lived server-sent events stream. Keep it open, then trigger a PATCH in another request.",
+      "environment": {},
+      "metaSortKey": -700
+    },
+    {
+      "_id": "req_sse_stream",
+      "_type": "request",
+      "parentId": "fld_notifications",
+      "name": "Profile Updated Stream",
+      "description": "event: profile.updated arrives whenever an employee profile is edited.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/notifications/stream",
+      "body": {},
+      "headers": [{ "name": "Accept", "value": "text/event-stream" }],
+      "authentication": {},
+      "parameters": [],
+      "metaSortKey": -690
+    }
+  ]
+}
