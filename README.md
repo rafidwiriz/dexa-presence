@@ -51,11 +51,14 @@ make install
 # 3. Start infra: PostgreSQL 16.15 + RabbitMQ 3.13.7
 make db
 
-# 4. Seed demo users (admin + employee; idempotent)
-make seed
-
-# 5. Run the API (terminal 1) → http://localhost:3000/api
+# 4. Run the API (terminal 1) → http://localhost:3000/api
+#    (first boot creates the schema via TypeORM `synchronize`; wait for
+#     "Nest application successfully started")
 make api
+
+# 5. Seed demo users (admin + employee; idempotent) — requires the API to have
+#    booted once so the `employees` table exists
+make seed
 
 # 6. Run the frontend (terminal 2) → http://localhost:5173
 make web
