@@ -157,6 +157,18 @@ ADR-style. Format: date · decision · context · consequence.
   frontend origin(s) via env (e.g. `CORS_ORIGINS`), since this is a `VITE_API_BASE`/
   `RABBITMQ_URL`-style runtime value.
 
+## D-018 · Summary date bounds are tz-aware (bug fix)
+- **2026-10-03**
+- `AttendanceService.summary` previously bound `check_at` with `new Date('YYYY-MM-DD')`
+  → **UTC midnight**. A record stamped `2026-10-02T18:00Z` (which is 01:00 WIB on
+  **Oct 3**) fell *before* the UTC-midnight "today" bound, so the day's own records
+  were missing from the summary → frontend showed no check-in.
+- Fixed: bounds computed as local start/end of day in the requested `tz` using
+  `($3::date)::timestamp AT TIME ZONE $1` … `+ interval '1 day'`. Defaults (`from`/`to`
+  omitted) now resolve to the current month start / today **in `tz`** via
+  `Intl.DateTimeFormat('en-CA', { timeZone: tz })`.
+- D-011 honored consistently: display + grouping + bounds all in the client's tz.
+
 ## Open decisions (to be made during implementation)
 - Photo storage: local upload dir vs object storage (local for the test).
 - NestJS layout: single app with modules vs monorepo `apps/`+`libs/`.

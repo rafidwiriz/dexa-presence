@@ -31,11 +31,15 @@ export class AttendanceService {
       check_out: string | null;
     }[]
   > {
-    const now = new Date();
-    const fromDate = from
-      ? new Date(from)
-      : new Date(now.getFullYear(), now.getMonth(), 1);
-    const toDate = to ? new Date(to) : now;
+    const todayInTz = new Intl.DateTimeFormat('en-CA', {
+      timeZone: tz,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }).format(new Date());
+
+    const fromDate = from ?? `${todayInTz.slice(0, 8)}01`; // start of current month
+    const toDate = to ?? todayInTz;
 
     const rows = await this.repo.query(
       `SELECT
@@ -44,10 +48,11 @@ export class AttendanceService {
          max(check_at) FILTER (WHERE check_type = 'out') AS check_out
        FROM attendance
        WHERE employee_id = $2
-         AND check_at >= $3 AND check_at <= $4
+         AND check_at >= ($3::date)::timestamp AT TIME ZONE $1
+         AND check_at <  (($4::date)::timestamp AT TIME ZONE $1) + interval '1 day'
        GROUP BY to_char(check_at AT TIME ZONE $1, 'YYYY-MM-DD')
        ORDER BY date`,
-      [tz, employeeId, fromDate.toISOString(), toDate.toISOString()],
+      [tz, employeeId, fromDate, toDate],
     );
 
     return rows.map((r: any) => ({
