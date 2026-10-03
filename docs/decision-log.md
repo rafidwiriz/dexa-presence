@@ -195,6 +195,16 @@ ADR-style. Format: date · decision · context · consequence.
   "Insomnia still works" is expected, not a bug. Verified via preflight: allowed
   origin gets the header, unknown origin gets none.
 
+## D-022 · Exact version pinning (npm + Docker)
+- **2026-10-03**
+- Removed all `^` ranges from both `package.json`s (rewritten from `package-lock.json`
+  resolved versions). Docker images pinned to running versions:
+  `postgres:16.15-alpine`, `rabbitmq:3.13.7-management-alpine`.
+- Notable resolved: NestJS 10.4.22, TypeORM 0.3.31, React 18.3.1, Vite 5.4.21,
+  Tailwind 4.3.3, Node 22.18.0.
+- `npm install --save-exact` alone is a no-op for existing ranges — it only affects
+  newly added packages. Rewriting from the lockfile is the reliable method.
+
 ## Open decisions (to be made during implementation)
 - None currently open — layout resolved by D-005; photo storage resolved as local
   upload dir (implemented in `uploads/`).

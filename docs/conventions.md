@@ -4,15 +4,18 @@
 
 | Layer | Choice | Version | Notes |
 |---|---|---|---|
-| Runtime | Node | 22 LTS | via `.nvmrc` in each app |
-| API framework | NestJS | 10 | TypeScript strict |
-| ORM | TypeORM | 0.3 | `@nestjs/typeorm@10`; entities + migrations |
-| Frontend | React + Vite | React 18, Vite 5 | TypeScript |
-| CSS | Tailwind | v4 via `@tailwindcss/vite` (D-016) | CSS-first, no config file |
-| DB | PostgreSQL | 16 | main DB |
-| Audit DB | PostgreSQL | 16 | separate database (`dexa_audit`) |
-| Queue | RabbitMQ | 3.13 | dockerized |
+| Runtime | Node | 22 LTS (22.18.0) | via `.nvmrc` in each app |
+| API framework | NestJS | 10.4.22 | TypeScript strict |
+| ORM | TypeORM | 0.3.31 | `@nestjs/typeorm@10`; entities + migrations |
+| Frontend | React + Vite | React 18.3.1, Vite 5.4.21 | TypeScript |
+| CSS | Tailwind | 4.3.3 via `@tailwindcss/vite` (D-016) | CSS-first, no config file |
+| DB | PostgreSQL | 16.15 (`postgres:16.15-alpine`) | main DB |
+| Audit DB | PostgreSQL | 16.15 (same image) | separate database (`dexa_audit`) |
+| Queue | RabbitMQ | 3.13.7 (`rabbitmq:3.13.7-management-alpine`) | dockerized |
 | Notification | SSE | server-sent events (`@Sse`) | D-004 |
+
+> Pinning (D-022): `package.json` deps are exact (no `^`), rewritten from the lockfile;
+> Docker images pinned to the running patch versions.
 
 Pin exact versions in `package.json` / `docker/compose.yml`; record any bump in
 `docs/decision-log.md`.
