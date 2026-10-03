@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from '../../lib/auth'
+import NotificationToasts from './NotificationToasts'
 
 const links = [
   { to: '/monitoring/employees', label: 'Karyawan' },
@@ -12,6 +13,7 @@ export default function MonitoringLayout() {
   return (
     <div className="min-h-screen bg-slate-100">
       <header className="bg-white shadow">
+        <NotificationToasts />
         <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between gap-2">
           <div className="font-bold text-slate-800">Monitoring HRD</div>
           <nav className="flex gap-2 overflow-x-auto">

@@ -1,4 +1,4 @@
-import type { AuthResponse, AttendanceRecord, AttendanceSummaryRow, Employee, Role } from './types'
+import type { AuthResponse, AttendanceRecord, AttendanceSummaryRow, Employee, Role, ProfileUpdatedEvent } from './types'
 
 export const API_BASE = import.meta.env.VITE_API_BASE ?? 'http://localhost:3000/api'
 
@@ -89,4 +89,18 @@ export const api = {
     if (params?.to) qs.set('to', params.to)
     return request<AttendanceRecord[]>(`/attendance?${qs.toString()}`)
   },
+}
+
+export function subscribeToNotifications(onEvent: (event: ProfileUpdatedEvent) => void): () => void {
+  const es = new EventSource(`${API_BASE}/notifications/stream`)
+  const handler = (e: MessageEvent) => {
+    try {
+      onEvent(JSON.parse(e.data) as ProfileUpdatedEvent)
+    } catch { /* malformed event — ignore */ }
+  }
+  es.addEventListener('profile.updated', handler)
+  return () => {
+    es.removeEventListener('profile.updated', handler)
+    es.close()
+  }
 }

@@ -31,3 +31,10 @@ export interface AuthResponse {
   accessToken: string
   employee: Employee
 }
+
+export interface ProfileUpdatedEvent {
+  employeeId: string
+  changedBy: string
+  fields: Record<string, { old: unknown; new: unknown }>
+  occurredAt: string
+}
