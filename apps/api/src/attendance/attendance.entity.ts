@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -24,9 +25,10 @@ export class Attendance {
   check_at: Date; // server-stamped
 
   @ManyToOne(() => Employee, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'employee_id' })
   employee: Employee;
 
-  @Column()
+  @Column({ type: 'uuid' })
   employee_id: string;
 
   @CreateDateColumn({ type: 'timestamptz' })

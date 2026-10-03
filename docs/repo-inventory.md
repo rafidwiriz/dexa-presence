@@ -57,7 +57,8 @@ See `docs/conventions.md` (single source for ports + pinned versions).
   compiled) — added via `npm install`.
 - **2026-10-02 hardening findings (Phase 6):** (1) `password_hash` is returned in
   auth/employee responses — must be excluded from serialization; (2) admin attendance
-  list returns `employee: null` — relation not loaded in `AttendanceService.findAll`.
+  list returned `employee: null` — **fixed 2026-10-03** (D-019: `@JoinColumn` on the
+  relation).
 - **2026-10-02 tooling:** Insomnia collection with test scripts added at
   `docs/insomnia/` (imports as v4; tokens handled via env vars, not chaining tags —
   those break on import in recent Insomnia versions).

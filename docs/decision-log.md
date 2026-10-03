@@ -169,6 +169,17 @@ ADR-style. Format: date · decision · context · consequence.
   `Intl.DateTimeFormat('en-CA', { timeZone: tz })`.
 - D-011 honored consistently: display + grouping + bounds all in the client's tz.
 
+## D-019 · Attendance→employee relation fixed (`@JoinColumn`)
+- **2026-10-03**
+- `Attendance` had `@ManyToOne(() => Employee) employee` **without** `@JoinColumn`, plus a
+  plain `@Column() employee_id`. TypeORM therefore created an implicit relation column
+  `employeeId` (uuid, always null) while `employee_id` held the real value → admin
+  attendance list returned `employee: null`.
+- Fix: `@JoinColumn({ name: 'employee_id' })` on the relation + `@Column({ type: 'uuid' })`
+  on `employee_id` (must match the uuid PK). DB cleanup: dropped the orphan `employeeId`
+  column and recreated `attendance` via `synchronize`.
+- Dev-data note: attendance rows reset in the process (test data, re-check-in as needed).
+
 ## Open decisions (to be made during implementation)
 - None currently open — layout resolved by D-005; photo storage resolved as local
   upload dir (implemented in `uploads/`).
