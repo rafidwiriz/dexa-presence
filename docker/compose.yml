@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:16-alpine
+    image: postgres:16.15-alpine
     environment:
       POSTGRES_USER: dexa
       POSTGRES_PASSWORD: dexa
@@ -11,7 +11,7 @@ services:
       - ./postgres/init:/docker-entrypoint-initdb.d:ro
     healthcheck: { test: ["CMD-SHELL", "pg_isready -U dexa -d dexa_presence"], interval: 5s, retries: 10 }
   rabbitmq:
-    image: rabbitmq:3.13-management-alpine
+    image: rabbitmq:3.13.7-management-alpine
     ports: ["5672:5672", "15672:15672"]
 volumes:
   postgres_data:
