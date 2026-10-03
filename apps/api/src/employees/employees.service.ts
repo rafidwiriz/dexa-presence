@@ -35,7 +35,7 @@ export class EmployeesService {
     return this.repo.save(employee);
   }
 
-  async update(id: string, data: Partial<Employee>): Promise<Employee> {
+  async update(id: string, data: Partial<Employee>, changedBy: string): Promise<Employee> {
     const before = await this.findOne(id);
     await this.repo.update(id, data);
     const after = await this.findOne(id);
@@ -48,36 +48,39 @@ export class EmployeesService {
     }
 
     if (Object.keys(fields).length > 0) {
-      await this.emitProfileUpdated(after.id, fields);
+      await this.emitProfileUpdated(after.id, fields, changedBy);
     }
     return after;
-  }
-
-  async remove(id: string): Promise<void> {
-    await this.findOne(id);
-    await this.repo.delete(id);
   }
 
   private async emitProfileUpdated(
     employeeId: string,
     fields: Record<string, { old: unknown; new: unknown }>,
+    changedBy: string,
   ): Promise<void> {
     try {
+      const actor = await this.repo.findOneBy({ id: changedBy });
       await lastValueFrom(
         this.client.emit('profile.updated', {
           employeeId,
-          changedBy: employeeId,
+          changedBy,
+          changedByName: actor?.name ?? null,
           fields,
           occurredAt: new Date().toISOString(),
         }),
       );
-      this.logger.log(`Emitted profile.updated for employee ${employeeId}`);
+      this.logger.log(`Emitted profile.updated for employee ${employeeId} by ${changedBy}`);
     } catch (err) {
-      // Never fail the HTTP request because the broker is down.
       this.logger.error(
         `Failed to publish profile.updated for ${employeeId}`,
         err instanceof Error ? err.stack : String(err),
       );
     }
+  }
+
+
+  async remove(id: string): Promise<void> {
+    await this.findOne(id);
+    await this.repo.delete(id);
   }
 }

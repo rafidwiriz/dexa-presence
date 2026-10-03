@@ -35,6 +35,7 @@ export interface AuthResponse {
 export interface ProfileUpdatedEvent {
   employeeId: string
   changedBy: string
+  changedByName?: string | null
   fields: Record<string, { old: unknown; new: unknown }>
   occurredAt: string
 }

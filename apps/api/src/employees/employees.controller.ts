@@ -81,7 +81,7 @@ export class EmployeesController {
       }
     }
 
-    return this.employeesService.update(id, dto);
+    return this.employeesService.update(id, dto, user.sub);
   }
 
   @Post(':id/photo')
@@ -107,7 +107,7 @@ export class EmployeesController {
       throw new ForbiddenException('You can only edit your own photo');
     }
     const photo_url = `/api/uploads/${file.filename}`;
-    return this.employeesService.update(id, { photo_url });
+    return this.employeesService.update(id, { photo_url }, user.sub);
   }
 
   @Roles(EmployeeRole.ADMIN)

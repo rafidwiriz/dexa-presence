@@ -10,7 +10,13 @@ export default function NotificationToasts() {
     const unsubscribe = subscribeToNotifications((ev) => {
       const fields = Object.keys(ev.fields)
       const id = Date.now()
-      setToasts((prev) => [...prev, { id, text: `Profil karyawan diubah: ${fields.join(', ')}` }])
+      setToasts((prev) => [
+        ...prev,
+        {
+          id,
+          text: `${ev.changedByName ?? 'Seseorang'} mengubah profil: ${fields.join(', ')}`,
+        },
+      ])
       setTimeout(() => {
         setToasts((prev) => prev.filter((t) => t.id !== id))
       }, 6000)
