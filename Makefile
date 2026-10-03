@@ -13,6 +13,7 @@ help:
 	@echo "  test     — run api tests"
 	@echo "  build    — build api + web"
 	@echo "  clean    — remove node_modules + build artifacts"
+	@echo "  seed     — seed the database with sample data"
 
 install:
 	cd apps/api && npm install
@@ -44,3 +45,6 @@ build:
 
 clean:
 	rm -rf apps/api/node_modules apps/web/node_modules apps/api/dist apps/web/dist
+
+seed:
+	cd apps/api && node --env-file=.env scripts/seed.js

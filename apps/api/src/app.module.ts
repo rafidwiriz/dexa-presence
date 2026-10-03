@@ -9,7 +9,6 @@ import { AttendanceModule } from './attendance/attendance.module';
 import { ProfileAuditModule } from './profile-audit/profile-audit.module';
 import { NotificationsModule } from './notifications/notifications.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),

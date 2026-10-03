@@ -31,6 +31,7 @@ dexa-presence/
 | Notifications | ✅ | SSE `GET /notifications/stream`; `profile.updated` → RxJS Subject → subscribers |
 | Profile audit | ✅ | RabbitMQ `profile.updated` → `dexa_audit.profile_changes` (separate connection) |
 | Frontends | ✅ both built | absensi: login, profil (edit photo/phone/password), absen, summary (date filter). monitoring: admin login + role-gate, employees CRUD, read-only attendance, SSE profile-update toasts |
+| Hardening | ✅ 2026-10-03 | password_hash excluded (D-020), CORS allowlist (D-021), exact pins (D-022), SSE shows changer (feedback), attendance index (D-023), env-driven seeder + README runbook. Migrations deferred (D-023). Remaining: final regression |
 | Backend runtime | ✅ verified 2026-10-02 | infra up (postgres 16 + rabbitmq 3.13), API boots clean, all routes smoke-tested end-to-end |
 
 ## Services / ports / versions

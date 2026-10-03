@@ -67,7 +67,8 @@ export class AttendanceService {
     from?: string,
     to?: string,
   ): Promise<Attendance[]> {
-    const query = this.repo.createQueryBuilder('attendance')
+    const query = this.repo
+      .createQueryBuilder('attendance')
       .leftJoinAndSelect('attendance.employee', 'employee')
       .orderBy('attendance.check_at', 'DESC');
 

@@ -35,7 +35,11 @@ export class EmployeesService {
     return this.repo.save(employee);
   }
 
-  async update(id: string, data: Partial<Employee>, changedBy: string): Promise<Employee> {
+  async update(
+    id: string,
+    data: Partial<Employee>,
+    changedBy: string,
+  ): Promise<Employee> {
     const before = await this.findOne(id);
     await this.repo.update(id, data);
     const after = await this.findOne(id);
@@ -69,7 +73,9 @@ export class EmployeesService {
           occurredAt: new Date().toISOString(),
         }),
       );
-      this.logger.log(`Emitted profile.updated for employee ${employeeId} by ${changedBy}`);
+      this.logger.log(
+        `Emitted profile.updated for employee ${employeeId} by ${changedBy}`,
+      );
     } catch (err) {
       this.logger.error(
         `Failed to publish profile.updated for ${employeeId}`,
@@ -77,7 +83,6 @@ export class EmployeesService {
       );
     }
   }
-
 
   async remove(id: string): Promise<void> {
     await this.findOne(id);

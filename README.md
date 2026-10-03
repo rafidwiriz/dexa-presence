@@ -37,6 +37,47 @@ WFH attendance + HRD monitoring web apps backed by NestJS microservices.
    `docs/repo-inventory.md` and `docs/decision-log.md`.
 4. Use the `Makefile` for setup/build/test commands.
 
+## Run from scratch
+
+**Prerequisites:** Node 22, Docker, `make`.
+
+```bash
+# 1. Runtime config (never committed) — demo creds live here, not in source
+cp apps/api/.env.example apps/api/.env
+
+# 2. Install dependencies (api + web)
+make install
+
+# 3. Start infra: PostgreSQL 16.15 + RabbitMQ 3.13.7
+make db
+
+# 4. Seed demo users (admin + employee; idempotent)
+make seed
+
+# 5. Run the API (terminal 1) → http://localhost:3000/api
+make api
+
+# 6. Run the frontend (terminal 2) → http://localhost:5173
+make web
+```
+
+**Demo logins:**
+
+| App | URL | Credentials |
+|---|---|---|
+| Monitoring (HRD) | http://localhost:5173/monitoring | `admin@dexa.co` / `admin123` |
+| Absensi (employee) | http://localhost:5173/absensi | `budi@dexa.co` / `budi123` |
+
+(The passwords are the `SEED_*` values in `apps/api/.env` — change them there, not in code.)
+
+**Quality gates:** `make lint` · `make test` · `make build`.
+
+**API testing:** import `docs/insomnia/dexa-presence.insomnia.json` into Insomnia, or
+follow `docs/api-contracts.md`. Watch the admin notification live: keep
+`GET /api/notifications/stream` open, then edit an employee profile — a
+`profile.updated` event arrives (also logged to the separate `dexa_audit` DB via
+RabbitMQ).
+
 ## Stack
 
 - Backend: TypeScript, **NestJS** (microservices)
