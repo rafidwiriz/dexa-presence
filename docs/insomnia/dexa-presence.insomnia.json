@@ -184,7 +184,7 @@
       "authentication": { "type": "bearer", "token": "{{ _.employee_token }}" },
       "parameters": [],
       "metaSortKey": -850,
-      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('Has photo_url', () => {\n  insomnia.expect(jsonBody && jsonBody.photo_url ? true : false).to.eql(true);\n});"
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 201', () => {\n  insomnia.expect(insomnia.response.code).to.eql(201);\n});\ninsomnia.test('Has photo_url', () => {\n  insomnia.expect(jsonBody && jsonBody.photo_url ? true : false).to.eql(true);\n});"
     },
     {
       "_id": "req_delete_employee",
@@ -225,7 +225,7 @@
       "authentication": { "type": "bearer", "token": "{{ _.employee_token }}" },
       "parameters": [],
       "metaSortKey": -790,
-      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('check_type is in', () => {\n  insomnia.expect(jsonBody && jsonBody.check_type === 'in').to.eql(true);\n});"
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 201', () => {\n  insomnia.expect(insomnia.response.code).to.eql(201);\n});\ninsomnia.test('check_type is in', () => {\n  insomnia.expect(jsonBody && jsonBody.check_type === 'in').to.eql(true);\n});"
     },
     {
       "_id": "req_check_out",
@@ -242,7 +242,7 @@
       "authentication": { "type": "bearer", "token": "{{ _.employee_token }}" },
       "parameters": [],
       "metaSortKey": -780,
-      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 200', () => {\n  insomnia.expect(insomnia.response.code).to.eql(200);\n});\ninsomnia.test('check_type is out', () => {\n  insomnia.expect(jsonBody && jsonBody.check_type === 'out').to.eql(true);\n});"
+      "afterResponseScript": "const jsonBody = insomnia.response.json();\ninsomnia.test('Status is 201', () => {\n  insomnia.expect(insomnia.response.code).to.eql(201);\n});\ninsomnia.test('check_type is out', () => {\n  insomnia.expect(jsonBody && jsonBody.check_type === 'out').to.eql(true);\n});"
     },
     {
       "_id": "req_summary",

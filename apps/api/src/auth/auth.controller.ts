@@ -1,4 +1,11 @@
-import { Body, Controller, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ChangePasswordDto, LoginDto } from './auth.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -9,6 +16,7 @@ import { AuthUser } from './jwt-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post('login')
+  @HttpCode(200)
   login(@Body() body: LoginDto) {
     return this.authService.login(body.company_email, body.password);
   }
