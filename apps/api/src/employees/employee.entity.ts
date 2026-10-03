@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 export enum EmployeeRole {
   EMPLOYEE = 'employee',
@@ -23,6 +24,7 @@ export class Employee {
   company_email: string;
 
   @Column({ length: 255 })
+  @Exclude()
   password_hash: string;
 
   @Column({ length: 120 })

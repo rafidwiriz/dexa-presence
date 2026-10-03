@@ -180,6 +180,13 @@ ADR-style. Format: date · decision · context · consequence.
   column and recreated `attendance` via `synchronize`.
 - Dev-data note: attendance rows reset in the process (test data, re-check-in as needed).
 
+## D-020 · `password_hash` excluded from serialization
+- **2026-10-03**
+- Every auth/employee response leaked `password_hash`. Fixed with class-transformer:
+  `@Exclude()` on `Employee.password_hash` + global `ClassSerializerInterceptor`
+  (`app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))`
+  in `main.ts`). Internal reads (bcrypt compare, audit) still use the raw entity.
+
 ## Open decisions (to be made during implementation)
 - None currently open — layout resolved by D-005; photo storage resolved as local
   upload dir (implemented in `uploads/`).
