@@ -187,6 +187,14 @@ ADR-style. Format: date · decision · context · consequence.
   (`app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))`
   in `main.ts`). Internal reads (bcrypt compare, audit) still use the raw entity.
 
+## D-021 · CORS origin allowlist (env-driven)
+- **2026-10-03**
+- Replaced wide-open `app.enableCors()` with an allowlist from `CORS_ORIGINS`
+  (comma-separated, default `http://localhost:5173`). Browsers of both frontends are
+  the only consumers; non-browser clients (curl, Insomnia) bypass CORS by design, so
+  "Insomnia still works" is expected, not a bug. Verified via preflight: allowed
+  origin gets the header, unknown origin gets none.
+
 ## Open decisions (to be made during implementation)
 - None currently open — layout resolved by D-005; photo storage resolved as local
   upload dir (implemented in `uploads/`).
