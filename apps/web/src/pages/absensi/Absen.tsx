@@ -33,6 +33,7 @@ export default function Absen() {
     }
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { loadToday() }, [today])
 
   const doCheck = async (check_type: 'in' | 'out') => {

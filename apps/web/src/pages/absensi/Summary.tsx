@@ -44,6 +44,7 @@ export default function Summary() {
     }
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(from, to) }, []) // initial: month start → today
 
   const applyFilter = () => load(from, to)
