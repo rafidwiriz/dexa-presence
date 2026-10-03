@@ -128,6 +128,17 @@ ADR-style. Format: date · decision · context · consequence.
 - Caveat: init scripts run only on a fresh volume. If the `postgres_data` volume
   already exists, drop it (`docker compose down -v`) or create `dexa_audit` manually.
 
+## D-015 · HTTP status codes: login 200, resource-creating POSTs 201
+- **2026-10-03**
+- NestJS returns 201 for every `@Post` by default. Kept 201 where a resource is
+  actually created, forced 200 where none is:
+  - `POST /api/auth/login` → **200** (`@HttpCode(200)` on `AuthController.login`):
+    JWT auth creates no resource.
+  - `POST /api/attendance/check` → **201**: inserts a new `attendance` row.
+  - `POST /api/employees/:id/photo` → **201**: writes a new file to `uploads/`.
+  - `POST /api/employees` → **201**: creates an employee (default).
+- Insomnia collection assertions updated to match.
+
 ## Open decisions (to be made during implementation)
 - CSS framework for the frontends (Tailwind recommended, to record here).
 - Photo storage: local upload dir vs object storage (local for the test).
