@@ -23,7 +23,7 @@ dexa-presence/
 | apps/api | ✅ scaffolded | NestJS 10 + TypeORM 0.3, builds clean |
 | apps/web | ✅ | Vite 5 + React 18 + Tailwind v4 (D-016); absensi + monitoring both built |
 | docker compose | ✅ | postgres 16 + rabbitmq 3.13 + audit-DB init script; containers running |
-| DB schema | 🟡 entities only | `synchronize: true` (dev); no migrations yet; audit DB not created |
+| DB schema | 🟡 entities only | `synchronize: true` kept (dev, D-023); audit DB created & verified |
 | Auth | ✅ | JWT login (`POST /auth/login`), password change (`PATCH /auth/password`), bcrypt |
 | Employees CRUD | ✅ | list/get/create/update/delete; self vs admin guards (D-010) |
 | Attendance | ✅ | employee check in/out + tz-aware summary; admin read-only view (all employees, filters) |

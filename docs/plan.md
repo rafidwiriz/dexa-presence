@@ -22,13 +22,13 @@ admins) sharing a NestJS microservices REST API. Completed in **3–4 days (max 
 
 ## Definition of Done (project)
 
-- [ ] Two frontends + one API, all consuming the same REST API (no duplicate endpoint logic).
-- [ ] Employee: login → view/edit profile (photo, phone, password) → check-in/out → summary with date-range filter.
-- [ ] Admin (HRD): add/update employee data; view all attendance (read-only).
-- [ ] Profile change triggers: (1) notification on admin page (SSE — D-004),
+- [x] Two frontends + one API, all consuming the same REST API (no duplicate endpoint logic).
+- [x] Employee: login → view/edit profile (photo, phone, password) → check-in/out → summary with date-range filter.
+- [x] Admin (HRD): add/update employee data; view all attendance (read-only).
+- [x] Profile change triggers: (1) notification on admin page (SSE — D-004),
   (2) RabbitMQ event logged to a **separate** database.
-- [ ] Stack pinned (see `docs/conventions.md`); no secrets baked into source or images.
-- [ ] Responsive on browser and mobile.
+- [x] Stack pinned (see `docs/conventions.md`); no secrets baked into source or images.
+- [x] Responsive on browser and mobile.
 
 ## Known risks
 
@@ -58,3 +58,4 @@ admins) sharing a NestJS microservices REST API. Completed in **3–4 days (max 
 | 2026-10-03 11:37 | ~2 days | ~2.8 days | ~66% | 🟢 **absensi app done**: scaffold (Vite+React+Tailwind D-016), login, profil (view + edit phone/photo/password), absen, summary with date filter; CORS fixed (D-017), tz-aware summary fixed (D-018). Remaining (largest first): monitoring app (employees CRUD + read-only attendance), profile-update notification on admin page, hardening (password_hash leak, employee:null relation, CORS origin restrict, migrations, exact pinning, runbook) |
 | 2026-10-03 16:28 | ~2 days | ~2.6 days | ~85% | 🟢 **both frontends done**: monitoring app (login + admin role-gate, employees CRUD with modal, read-only attendance, SSE profile-update toasts). Fixed attendance→employee relation (D-019, orphan `employeeId` column removed). Remaining: hardening (password_hash leak, CORS origin restrict, exact version pinning, migrations, index, runbook) + user frontend feedback |
 | 2026-10-03 late | ~2 days | ~2.5 days | ~92% | 🟢 **hardening done**: password_hash excluded (D-020), CORS allowlist via env (D-021), exact npm/Docker pinning (D-022), SSE toast shows changer name (from feedback), attendance index via `@Index` (D-023 — migrations deferred as overkill for the test, `synchronize` kept in dev), idempotent env-driven seeder + README runbook. Remaining: final regression check |
+| 2026-10-03 evening | ~2 days | ~2.5 days | ~98% | 🟢 **all phases done + fresh-state verified**: `down -v` → `make db` → boot API (schema) → `make seed` → login/check-in/summary/admin-list (employee relation)/no password_hash leak/PATCH→RabbitMQ→audit DB all green. Lint 0 warnings, api tests pass, both builds clean. Remaining: demo to user + any final polish |

@@ -53,9 +53,12 @@ Event name (`type`): `profile.updated`. Data = the `profile.updated` RabbitMQ pa
 
 Published by `EmployeesService` on employee update (only changed fields among
 name/position/phone/photo_url). Consumed by `ProfileAuditConsumer` → writes a row to
-`dexa_audit.profile_changes`. Queue `profile_updated` (durable), at-least-once.
+`dexa_audit.profile_changes`, and by `NotificationsConsumer` → SSE to monitoring app.
+Queue `profile_updated` (durable), at-least-once.
 
 Payload:
 ```json
-{ "employeeId": "uuid", "changedBy": "uuid", "fields": { "phone": { "old": "...", "new": "..." } }, "occurredAt": "ISO" }
+{ "employeeId": "uuid", "changedBy": "uuid", "changedByName": "Budi Santoso", "fields": { "phone": { "old": "...", "new": "..." } }, "occurredAt": "ISO" }
 ```
+`changedByName` (actor name) added 2026-10-03 (frontend feedback). `changedBy` is the
+real actor (self or admin), not necessarily the employee whose profile changed.

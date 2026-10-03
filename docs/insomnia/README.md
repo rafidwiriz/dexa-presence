@@ -5,8 +5,9 @@ Import `dexa-presence.insomnia.json` into Insomnia (Application menu →
 
 ## Setup
 
-1. Start infra + API (`make db`, then `make api`).
-2. Open the collection → **Base Environment** (pencil icon) → confirm the seeded
+1. Start infra + API: `make db`, then `make api` (first boot creates the schema).
+2. Seed demo users if the DB is fresh: `make seed`.
+3. Open the collection → **Base Environment** (pencil icon) → confirm the seeded
    credentials are present (defaults match `docs/conventions.md` + seed data).
 3. **Run the two Login requests first** — their after-response scripts store the JWT
    into `admin_token` / `employee_token`, and employee id into `employee_id`.

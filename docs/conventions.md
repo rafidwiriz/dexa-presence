@@ -33,10 +33,11 @@ Pin exact versions in `package.json` / `docker/compose.yml`; record any bump in
 ## Environment & secrets
 
 - Everything via env vars; per-app `.env` from `.env.example` — never committed.
-- API uses discrete vars (see `apps/api/.env.example`): `DATABASE_HOST`,
-  `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`,
-  `PORT`, `JWT_SECRET`. Audit DB + RabbitMQ vars added when those features land
-  (`AUDIT_DATABASE_*`, `RABBITMQ_URL`).
+- API vars (see `apps/api/.env.example`): `DATABASE_HOST`, `DATABASE_PORT`,
+  `DATABASE_USER`, `DATABASE_PASSWORD`, `DATABASE_NAME`, `PORT`, `JWT_SECRET`,
+  `AUDIT_DATABASE_*`, `RABBITMQ_URL`, `CORS_ORIGINS` (comma-separated allowlist,
+  D-021), `SEED_ADMIN_*` / `SEED_EMPLOYEE_*` (demo credentials for `make seed`,
+  D-022 runbook). Frontend optionally `VITE_API_BASE` in `apps/web/.env`.
 - No secrets in source, images, or this repo.
 
 ## API style
