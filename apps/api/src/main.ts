@@ -18,6 +18,7 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('api');
+  app.enableCors();
   app.useStaticAssets(join(process.cwd(), 'uploads'), {
     prefix: '/api/uploads/',
   });

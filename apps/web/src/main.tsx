@@ -1,11 +1,27 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './lib/auth'
+import { AuthProvider, useAuth } from './lib/auth'
 import './index.css'
+import AbsensiLogin from './pages/absensi/Login'
+import AbsensiLayout from './pages/absensi/AbsensiLayout'
+import Absen from './pages/absensi/Absen'
+import Profile from './pages/absensi/Profile'
+import Summary from './pages/absensi/Summary'
 
 function AbsensiApp() {
-  return <h1 className="p-4 text-xl font-bold">Absensi App</h1>
+  const { user } = useAuth()
+  if (!user) return <AbsensiLogin />
+  return (
+    <Routes>
+      <Route element={<AbsensiLayout />}>
+        <Route index element={<Absen />} />
+        <Route path="absen" element={<Absen />} />
+        <Route path="profil" element={<Profile />} />
+        <Route path="summary" element={<Summary />} />
+      </Route>
+    </Routes>
+  )
 }
 
 function MonitoringApp() {

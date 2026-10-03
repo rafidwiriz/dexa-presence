@@ -149,6 +149,14 @@ ADR-style. Format: date · decision · context · consequence.
   mobile/desktop for free (requirement: responsive both apps).
 - No Tailwind config file unless a future need forces one.
 
+## D-017 · CORS enabled on the API (dev)
+- **2026-10-02**
+- Frontend on `:5173` calls API on `:3000` → preflight `OPTIONS` was rejected (Nest
+  sends no CORS headers by default). Added `app.enableCors()` in `apps/api/src/main.ts`.
+- Wide-open (all origins) for the test phase. Phase 6 hardening: restrict to the
+  frontend origin(s) via env (e.g. `CORS_ORIGINS`), since this is a `VITE_API_BASE`/
+  `RABBITMQ_URL`-style runtime value.
+
 ## Open decisions (to be made during implementation)
 - Photo storage: local upload dir vs object storage (local for the test).
 - NestJS layout: single app with modules vs monorepo `apps/`+`libs/`.
