@@ -18,7 +18,6 @@ export default function Profile() {
   const API_ORIGIN = API_BASE.replace(/\/api$/, '')
 
   const [phoneDraft, setPhoneDraft] = useState('')
-  const [file, setFile] = useState<File | null>(null)
   const [current_password, setCurrentPassword] = useState('')
   const [new_password, setNewPassword] = useState('')
   const [saving, setSaving] = useState(false)
