@@ -12,7 +12,7 @@
 | DB | PostgreSQL | 16 | main DB |
 | Audit DB | PostgreSQL | 16 | separate database (`dexa_audit`) |
 | Queue | RabbitMQ | 3.13 | dockerized |
-| Notification | SSE or Firebase | — | **pending D-004** |
+| Notification | SSE | server-sent events (`@Sse`) | D-004 |
 
 Pin exact versions in `package.json` / `docker/compose.yml`; record any bump in
 `docs/decision-log.md`.

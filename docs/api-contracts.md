@@ -45,6 +45,10 @@ Event name (`type`): `profile.updated`. Data = the `profile.updated` RabbitMQ pa
 `{ "statusCode": 4xx, "message": "...", "error": "..." }` (Nest default). Auth errors:
 401. Forbidden (role): 403. Not found: 404.
 
+> **Status codes (D-015):** `POST /api/auth/login` returns **200**. Resource-creating
+> POSTs (`/api/attendance/check`, `/api/employees/:id/photo`, `/api/employees`)
+> return **201**.
+
 ## Event — `profile.updated` (RabbitMQ)
 
 Published by `EmployeesService` on employee update (only changed fields among

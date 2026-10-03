@@ -170,5 +170,5 @@ ADR-style. Format: date · decision · context · consequence.
 - D-011 honored consistently: display + grouping + bounds all in the client's tz.
 
 ## Open decisions (to be made during implementation)
-- Photo storage: local upload dir vs object storage (local for the test).
-- NestJS layout: single app with modules vs monorepo `apps/`+`libs/`.
+- None currently open — layout resolved by D-005; photo storage resolved as local
+  upload dir (implemented in `uploads/`).

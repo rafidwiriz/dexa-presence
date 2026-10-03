@@ -21,8 +21,8 @@ dexa-presence/
 |---|---|---|
 | Docs scaffold | ✅ | plan, requirements, architecture, data-model, api-contracts, conventions, decision-log, nestjs-flask-guide |
 | apps/api | ✅ scaffolded | NestJS 10 + TypeORM 0.3, builds clean |
-| apps/web | ⬜ not started | |
-| docker compose | ✅ | postgres 16 + rabbitmq 3.13 + audit-DB init script; containers not started yet |
+| apps/web | 🟡 | Vite 5 + React 18 + Tailwind v4 (D-016); absensi done, monitoring pending |
+| docker compose | ✅ | postgres 16 + rabbitmq 3.13 + audit-DB init script; containers running |
 | DB schema | 🟡 entities only | `synchronize: true` (dev); no migrations yet; audit DB not created |
 | Auth | ✅ | JWT login (`POST /auth/login`), password change (`PATCH /auth/password`), bcrypt |
 | Employees CRUD | ✅ | list/get/create/update/delete; self vs admin guards (D-010) |
@@ -30,7 +30,7 @@ dexa-presence/
 | Photo upload | ✅ | `POST /employees/:id/photo` → `uploads/`, served at `/api/uploads/*` |
 | Notifications | ✅ | SSE `GET /notifications/stream`; `profile.updated` → RxJS Subject → subscribers |
 | Profile audit | ✅ | RabbitMQ `profile.updated` → `dexa_audit.profile_changes` (separate connection) |
-| Frontends | ⬜ not started | absensi (profil, absen, summary) + monitoring (CRUD, read-only absensi) |
+| Frontends | 🟡 absensi done | absensi: login, profil (edit photo/phone/password), absen, summary (date filter). monitoring: not started |
 | Backend runtime | ✅ verified 2026-10-02 | infra up (postgres 16 + rabbitmq 3.13), API boots clean, all routes smoke-tested end-to-end |
 
 ## Services / ports / versions

@@ -25,15 +25,15 @@ admins) sharing a NestJS microservices REST API. Completed in **3–4 days (max 
 - [ ] Two frontends + one API, all consuming the same REST API (no duplicate endpoint logic).
 - [ ] Employee: login → view/edit profile (photo, phone, password) → check-in/out → summary with date-range filter.
 - [ ] Admin (HRD): add/update employee data; view all attendance (read-only).
-- [ ] Profile change triggers: (1) notification on admin page (SSE or Firebase — D-004
-  pending), (2) RabbitMQ event logged to a **separate** database.
+- [ ] Profile change triggers: (1) notification on admin page (SSE — D-004),
+  (2) RabbitMQ event logged to a **separate** database.
 - [ ] Stack pinned (see `docs/conventions.md`); no secrets baked into source or images.
 - [ ] Responsive on browser and mobile.
 
 ## Known risks
 
 - Timebox (3–4 days): keep scope tight; reuse patterns, not code.
-- Notification (SSE/Firebase) + RabbitMQ add moving parts — implement after core CRUD works.
+- Notification (SSE) + RabbitMQ add moving parts — implement after core CRUD works.
 - Two databases (main + audit) — keep connection/queue config env-driven.
 
 ## Timeline
@@ -55,3 +55,4 @@ admins) sharing a NestJS microservices REST API. Completed in **3–4 days (max 
 | 2026-10-02 16:55 | ~2 days | ~3.6 days | ~55% | 🟢 on track |
 | 2026-10-02 late | ~2 days | ~3.5 days | ~60% | 🟢 backend complete (auth, employees, photo, attendance, profile-audit, notifications/SSE); frontend is the big remaining block |
 | 2026-10-02 23:45 | ~2 days | ~3.5 days | ~62% | 🟢 backend **verified running**: infra up (postgres+rabbitmq), API boots, seeded admin+employee, smoke-tested login/CRUD/attendance/SSE/RMQ→audit DB. Missing deps fixed (`@nestjs/microservices`, `amqplib`, `amqp-connection-manager`). Found hardening issues: `password_hash` leaked in responses, admin attendance list returns `employee:null` |
+| 2026-10-03 11:37 | ~2 days | ~2.8 days | ~66% | 🟢 **absensi app done**: scaffold (Vite+React+Tailwind D-016), login, profil (view + edit phone/photo/password), absen, summary with date filter; CORS fixed (D-017), tz-aware summary fixed (D-018). Remaining (largest first): monitoring app (employees CRUD + read-only attendance), profile-update notification on admin page, hardening (password_hash leak, employee:null relation, CORS origin restrict, migrations, exact pinning, runbook) |

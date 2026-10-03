@@ -7,7 +7,7 @@ Working rules for this project. Read this before making changes.
 - **Deadline: Oct 6, 2026, 08:00** (spec: 3–4 days, max 5).
 - Progress tracked in `docs/plan.md` → "Deadline tracking" (checkpoint table).
 - Update the table at the start/end of each working session.
-- Remaining work (largest first): frontend apps, notifications, hardening.
+- Remaining work (largest first): monitoring app, notification display on admin page, hardening.
 
 ## Mission
 
@@ -18,9 +18,10 @@ microservices (REST API), per the spec in `docs/requirements.md`. Deliver within
 
 ## Current state
 
-Backend API largely built (auth, employees CRUD + photo, attendance, profile-audit
-via RabbitMQ). Frontend + notifications pending. See status table in `README.md` and
-the source of truth `docs/repo-inventory.md`.
+Backend API built and verified running (auth, employees CRUD + photo, attendance,
+profile-audit via RabbitMQ, notifications via SSE). Absensi frontend done (login,
+profil + edit, absen, summary). Monitoring frontend + hardening pending. See status
+table in `README.md` and the source of truth `docs/repo-inventory.md`.
 
 ## Non-negotiables
 

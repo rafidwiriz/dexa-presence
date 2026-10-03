@@ -13,11 +13,11 @@ Two databases:
 | id | uuid | PK |
 | name | varchar(120) | Nama |
 | company_email | varchar(160) | unique; login credential |
-| password_hash | varchar(255) | argon2/bcrypt |
+| password_hash | varchar(255) | bcrypt (implemented) |
 | position | varchar(120) | Posisi |
 | phone | varchar(30) | Nomor Handphone |
 | photo_url | varchar(255) | Foto Karyawan (uploaded file) |
-| role | varchar(20) | `employee` \| `admin` |
+| role | enum | Postgres enum: `employee` \| `admin` |
 | is_active | boolean | default true |
 | created_at / updated_at | timestamptz | |
 
@@ -51,5 +51,7 @@ Written only by the ProfileAudit consumer (separate DB connection).
 ## Conventions
 
 - Timestamps `timestamptz`, IDs `uuid` (app-generated).
-- Indexes: `attendance(employee_id, check_at)`, `employees(company_email)`.
+- Indexes: `employees(company_email)` unique (from column constraint).
+  `attendance(employee_id, check_at)` is planned but **not yet implemented** — tracked
+  in the hardening backlog.
 - Env-driven connection strings — never hard-coded (see `docs/conventions.md`).

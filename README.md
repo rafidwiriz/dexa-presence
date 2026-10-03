@@ -7,11 +7,12 @@ WFH attendance + HRD monitoring web apps backed by NestJS microservices.
 | Phase | Status |
 |---|---|
 | 0 — Requirements & docs | ✅ Structure + docs scaffolded |
-| 1 — Architecture & conventions | Documented (see `docs/`) |
-| 2 — Database schema | 🟡 Entities only (`synchronize` dev-mode) |
-| 3 — API microservices | ✅ Auth + employees + attendance + photo upload + profile-audit (RabbitMQ) + notifications (SSE) built |
-| 4 — Frontend apps (absensi + monitoring) | Not started |
-| 5 — Integration & notification/queue | Not started |
+| 1 — Scaffold | ✅ apps/api (NestJS) + apps/web (React/Vite) |
+| 2 — Infra | ✅ docker compose: postgres 16 + rabbitmq 3.13 (running) |
+| 3 — Database schema | 🟡 Entities only (`synchronize` dev-mode); migrations pending |
+| 4 — API microservices | ✅ Auth + employees + photo + attendance + profile-audit (RabbitMQ) + notifications (SSE) built & verified |
+| 5 — Frontend apps | 🟡 Absensi done (login, profil+edit, absen, summary); monitoring pending |
+| 6 — Hardening | ⬜ Not started |
 
 ## Documents
 
@@ -39,7 +40,7 @@ WFH attendance + HRD monitoring web apps backed by NestJS microservices.
 ## Stack
 
 - Backend: TypeScript, **NestJS** (microservices)
-- Frontend: **React** (Vite)
+- Frontend: **React** (Vite) + **Tailwind CSS** (D-016)
 - Database: **PostgreSQL** (choose-one per spec)
 - Queue for profile-change audit log → separate DB: **RabbitMQ**
-- Admin notification on profile edit: **SSE or Firebase** (D-004 pending)
+- Admin notification on profile edit: **SSE** (D-004)
